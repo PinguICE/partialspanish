@@ -34,13 +34,14 @@ const EMOJIS = [
  {emoji:"🙄",label:"desagrado / poco interés",wrong:["🏖️","🪵","📅"]}
 ];
 const $=id=>document.getElementById(id);
-let xp=0,streak=0,mastered=new Set(),learnOrder=shuffle(WORDS.map((_,i)=>i)),learnIndex=0,quizSet=[],quizIndex=0,quizTimer=null,quizSeconds=40,quizLocked=false,kahootSet=[],kahootIndex=0,kahootTimer=null,kahootSeconds=15,kahootPoints=0,kahootLocked=true,writeOrder=shuffle(WORDS.map((_,i)=>i)),writeIndex=0,matchPairs=[],selectedWord=null,selectedDef=null,matched=0,practiceMode=null,practiceId=null,practiceRemaining=0;
+function requireElement(id){const el=$(id);if(!el)throw new Error(`Falta el elemento #${id} en index.html`);return el;}
+let xp=0,streak=0,mastered=new Set(),learnOrder=shuffle(WORDS.map((_,i)=>i)),learnIndex=0,quizSet=[],quizIndex=0,quizTimer=null,quizSeconds=40,quizLocked=false,kahootSet=[],kahootIndex=0,kahootTimer=null,kahootSeconds=15,kahootPoints=0,kahootLocked=true,writeOrder=shuffle(WORDS.map((_,i)=>i)),writeIndex=0,writeAnswered=false,practiceMode=null,practiceId=null,practiceRemaining=0;
 const panels=["learn","quiz","kahoot","emoji","write","review","shop","results"];
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
 function updateStats(){ $("xp").textContent=xp;if($("shop-xp"))$("shop-xp").textContent=xp;$("streak").textContent=streak;$("mastered").textContent=mastered.size;$("progress-label").textContent=`${mastered.size} de 15 dominadas`;$("progress-bar").style.width=(mastered.size/15*100)+"%";}
 function addXP(n){xp+=n;updateStats();if($("shop")&&!$("shop").classList.contains("hidden"))renderShop()}
-function showMode(mode){if(mode!=="shop")currentGame=mode;clearInterval(quizTimer);clearInterval(kahootTimer);panels.forEach(p=>$(p).classList.toggle("hidden",p!==mode));document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));if(mode==="learn")renderLearn();if(mode==="quiz")startQuiz();if(mode==="kahoot")prepareKahoot();if(mode==="emoji")startEmoji();if(mode==="shop")renderShop();if(mode==="write")renderWrite();}
+function showMode(mode){if(!panels.includes(mode))return; if(mode!=="shop")currentGame=mode;clearInterval(quizTimer);clearInterval(kahootTimer);panels.forEach(p=>{const panel=$(p);if(panel)panel.classList.toggle("hidden",p!==mode)});document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));if(mode==="learn")renderLearn();if(mode==="quiz")startQuiz();if(mode==="kahoot")prepareKahoot();if(mode==="emoji")startEmoji();if(mode==="shop")renderShop();if(mode==="write")renderWrite();}
 document.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{
  const target=b.dataset.mode;
  if(target==="shop")returnGame=currentGame;
@@ -117,12 +118,25 @@ function advancePractice(){
 }
 $("quiz-practice").onclick=()=>beginPractice("quiz",quizSet[quizIndex]);
 $("kahoot-practice").onclick=()=>beginPractice("kahoot",kahootSet[kahootIndex]);
-function newMatch(){const ids=shuffle(WORDS.map((_,i)=>i)).slice(0,5);matchPairs=ids;selectedWord=null;selectedDef=null;matched=0,emojiSet=[],emojiIndex=0,emojiLocked=false,currentGame="learn",returnGame="learn";$("match-count").textContent="0 / 5";$("match-feedback").className="feedback hidden";$("match-words").innerHTML="";$("match-defs").innerHTML="";shuffle(ids).forEach(id=>{let b=document.createElement("button");b.className="match-option";b.textContent=WORDS[id].w;b.dataset.id=id;b.onclick=()=>selectMatch("word",b);$("match-words").appendChild(b)});shuffle(ids).forEach(id=>{let b=document.createElement("button");b.className="match-option";b.textContent=WORDS[id].mini;b.dataset.id=id;b.onclick=()=>selectMatch("def",b);$("match-defs").appendChild(b)})}
-function selectMatch(type,b){if(b.classList.contains("matched"))return;const key=type==="word"?"selectedWord":"selectedDef";document.querySelectorAll(type==="word"?"#match-words .match-option":"#match-defs .match-option").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");if(type==="word")selectedWord=b;else selectedDef=b;if(selectedWord&&selectedDef){if(selectedWord.dataset.id===selectedDef.dataset.id){selectedWord.classList.add("matched");selectedDef.classList.add("matched");selectedWord.classList.remove("selected");selectedDef.classList.remove("selected");matched++;addXP(5);mastered.add(Number(selectedWord.dataset.id));$("match-count").textContent=`${matched} / 5`;selectedWord=null;selectedDef=null;if(matched===5){$("match-feedback").className="feedback good";$("match-feedback").textContent="¡Perfecto! Encontraste los cinco pares. +25 XP";streak++;updateStats()}}else{const a=selectedWord,c=selectedDef;setTimeout(()=>{a.classList.remove("selected");c.classList.remove("selected");},450);selectedWord=null;selectedDef=null;streak=0;updateStats()}}}
-$("match-new").onclick=newMatch;
-
-function renderWrite(){const x=WORDS[writeOrder[writeIndex]];$("write-counter").textContent=`${writeIndex+1} / 15`;$("write-word").textContent=x.w.toUpperCase();$("write-input").value="";$("write-feedback").className="feedback hidden";}
-$("write-check").onclick=()=>{const actualId=writeOrder[writeIndex],x=WORDS[actualId],v=$("write-input").value.trim().toLowerCase();if(!v){toast("Escribe una idea primero.");return}const tokens=x.mini.toLowerCase().split(/[^a-záéíóúñ]+/).filter(t=>t.length>3);const hits=tokens.filter(t=>v.includes(t)).length;const ok=hits>=1||v.length>55;const f=$("write-feedback");f.className="feedback "+(ok?"good":"bad");f.innerHTML=ok?`<strong>¡Bien explicado! +5 XP</strong>Idea clave: ${x.mini}<br>🧠 ${x.tip}`:`<strong>Vamos a mejorarlo.</strong>Idea clave: <b>${x.mini}</b><br>Truco: ${x.tip}<br>Ejemplo: ${x.example}`;if(ok){addXP(5);mastered.add(actualId);streak++}else streak=0;updateStats();writeIndex=(writeIndex+1)%WORDS.length;};
+function renderWrite(){
+ const x=WORDS[writeOrder[writeIndex]];writeAnswered=false;
+ $("write-counter").textContent=`${writeIndex+1} / ${writeOrder.length}`;
+ $("write-word").textContent=x.w.toUpperCase();$("write-input").value="";
+ $("write-input").disabled=false;$("write-check").disabled=false;
+ $("write-check").textContent="Revisar respuesta";
+ $("write-feedback").className="feedback hidden";
+}
+$("write-check").onclick=()=>{
+ if(writeAnswered){writeIndex=(writeIndex+1)%writeOrder.length;renderWrite();return;}
+ const actualId=writeOrder[writeIndex],x=WORDS[actualId],v=$("write-input").value.trim().toLowerCase();
+ if(!v){toast("Escribe una idea primero.");return;}
+ const tokens=x.mini.toLowerCase().split(/[^a-záéíóúñ]+/).filter(t=>t.length>3);
+ const hits=tokens.filter(t=>v.includes(t)).length,ok=hits>=1||v.length>55,f=$("write-feedback");
+ f.className="feedback "+(ok?"good":"bad");
+ f.innerHTML=ok?`<strong>¡Bien explicado! +5 XP</strong>Idea clave: ${x.mini}<br>🧠 ${x.tip}`:`<strong>Vamos a mejorarlo.</strong>Idea clave: <b>${x.mini}</b><br>Truco: ${x.tip}<br>Ejemplo: ${x.example}`;
+ if(ok){addXP(5);mastered.add(actualId);streak++;}else streak=0;
+ updateStats();writeAnswered=true;$("write-input").disabled=true;$("write-check").textContent="Siguiente palabra →";
+};
 
 
 // Emoji game: the emoji is a visual memory clue, not a replacement for the real definition.
@@ -176,7 +190,7 @@ function buyPower(item){
 document.querySelectorAll(".buy").forEach(b=>b.addEventListener("click",()=>buyPower(b.dataset.item)));
 $("back-game").onclick=()=>{
  const target=returnGame||"learn";
- panels.forEach(p=>$(p).classList.toggle("hidden",p!==target));
+ panels.forEach(p=>{const panel=$(p);if(panel)panel.classList.toggle("hidden",p!==target)});
  document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===target));
  currentGame=target;
  if(target==="quiz"&&!quizLocked){
@@ -192,7 +206,7 @@ $("back-game").onclick=()=>{
 };
 
 $("dictionary").innerHTML=WORDS.map((x,i)=>`<article class="dict-item"><b>${i+1}. ${x.w}</b><div class="mini">${x.mini}</div><small>${x.cat} · ${x.full}</small></article>`).join("");
-function finishMode(title,text){panels.forEach(p=>$(p).classList.toggle("hidden",p!=="results"));document.querySelectorAll(".mode").forEach(b=>b.classList.remove("active"));$("result-title").textContent=title;$("result-text").textContent=text;}
+function finishMode(title,text){clearInterval(quizTimer);clearInterval(kahootTimer);panels.forEach(p=>{const panel=$(p);if(panel)panel.classList.toggle("hidden",p!=="results")});document.querySelectorAll(".mode").forEach(b=>b.classList.remove("active"));$("result-title").textContent=title;$("result-text").textContent=text;}
 $("result-again").onclick=()=>showMode("learn");
 renderLearn();updateStats();renderShop();
 
