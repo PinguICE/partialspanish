@@ -35,9 +35,10 @@
       <button class="mode active" data-mode="learn"><span>🧠</span><b>Aprender</b><small>Mini significados</small></button>
       <button class="mode" data-mode="quiz"><span>📝</span><b>Quiz</b><small>Tipo Quizlet</small></button>
       <button class="mode" data-mode="kahoot"><span>🎮</span><b>Kahoot</b><small>Contra el reloj</small></button>
-      <button class="mode" data-mode="match"><span>🧩</span><b>Une pares</b><small>Palabra + significado</small></button>
+      <button class="mode" data-mode="emoji"><span>😎</span><b>Emoji challenge</b><small>Adivina con emojis</small></button>
       <button class="mode" data-mode="write"><span>✍️</span><b>Escribir</b><small>Practica el recuerdo</small></button>
       <button class="mode" data-mode="review"><span>📖</span><b>Diccionario</b><small>Las 15 palabras</small></button>
+      <button class="mode shop-mode" data-mode="shop"><span>🛒</span><b>Tienda XP</b><small>Compra poderes</small></button>
     </nav>
 
     <section id="learn" class="game card">
@@ -77,12 +78,15 @@
       <button class="btn secondary start-btn" id="kahoot-start">▶ Empezar partida</button>
     </section>
 
-    <section id="match" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">MODO PAREJAS</p><h2>Une cada palabra con su idea</h2></div><span class="counter" id="match-count">0 / 5</span></div>
-      <p class="sub">Selecciona una palabra y luego su significado. ¡Tienes que encontrar cinco pares!</p>
-      <div class="match-grid"><div id="match-words" class="match-column"></div><div id="match-defs" class="match-column"></div></div>
-      <div class="feedback hidden" id="match-feedback"></div>
-      <div class="controls right"><button class="btn primary" id="match-new">Nueva ronda</button></div>
+    <section id="emoji" class="game card hidden">
+      <div class="section-head"><div><p class="eyebrow">EMOJI CHALLENGE</p><h2>¡Descifra la palabra!</h2></div><span class="counter" id="emoji-counter">1 / 10</span></div>
+      <p class="sub">Mira los emojis y elige el que mejor representa el significado de la palabra.</p>
+      <div class="question-word" id="emoji-word">AHERROJAR</div>
+      <div class="emoji-big" id="emoji-clue">⛓️</div>
+      <p class="question">¿Qué emoji representa mejor esta palabra?</p>
+      <div class="emoji-options" id="emoji-options"></div>
+      <div class="feedback hidden" id="emoji-feedback"></div>
+      <div class="controls right"><button class="btn primary" id="emoji-next" disabled>Siguiente ↵</button></div>
     </section>
 
     <section id="write" class="game card hidden">
@@ -97,6 +101,23 @@
     <section id="review" class="game card hidden">
       <div class="section-head"><div><p class="eyebrow">TU DICCIONARIO</p><h2>Las 15 palabras del examen</h2></div><span class="counter">S2</span></div>
       <div class="dictionary" id="dictionary"></div>
+    </section>
+
+    <section id="shop" class="game card hidden">
+      <div class="section-head"><div><p class="eyebrow">TIENDA DE PODERES</p><h2>Compra con tus XP</h2></div><span class="xp-wallet">⚡ <b id="shop-xp">0</b> XP</span></div>
+      <p class="sub">Ahorra tus puntos. Los poderes son caros porque pueden salvarte en preguntas difíciles.</p>
+      <div class="shop-grid">
+        <article class="shop-item">
+          <div class="shop-icon">⏭️</div><div class="shop-info"><h3>Skip de pregunta</h3><p>Salta la pregunta actual de Quiz o Kahoot sin perder una vida. No da puntos por esa pregunta.</p><b class="price">⚡ 120 XP</b></div>
+          <button class="btn primary buy" data-item="skip">Comprar</button>
+        </article>
+        <article class="shop-item">
+          <div class="shop-icon">🔮</div><div class="shop-info"><h3>Revelar respuesta</h3><p>Revela la respuesta correcta de la pregunta actual. No recibirás puntos por responderla.</p><b class="price">⚡ 250 XP</b></div>
+          <button class="btn primary buy" data-item="reveal">Comprar</button>
+        </article>
+      </div>
+      <p class="shop-note">💡 Abre la tienda durante una partida o antes de empezar. Los poderes se aplican a la pregunta actual del modo Quiz o Kahoot.</p>
+      <div class="controls right"><button class="btn secondary" id="back-game">Volver al juego</button></div>
     </section>
 
     <section id="results" class="game card hidden">

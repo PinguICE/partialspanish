@@ -4,3 +4,18 @@
 @media(max-width:560px){.topbar{padding:0 12px}.stats{gap:4px}.stat{font-size:11px;padding:7px}.brand{font-size:14px}.mode-grid{grid-template-columns:repeat(2,1fr)}.card{padding:17px}.answers,.kahoot-answers,.dictionary{grid-template-columns:1fr}.welcome-art{font-size:47px}.welcome h1{font-size:25px}.section-head h2{font-size:18px}.match-option{font-size:12px;padding:10px 7px}}
 
 .keyboard-hint{text-align:right;color:#829198;font-size:11px;font-weight:800;margin:9px 2px 0}.keyboard-hint kbd{background:#edf1f3;border:1px solid #d9e1e4;border-bottom-width:2px;border-radius:5px;padding:2px 6px;font:800 11px Nunito}
+
+/* Emoji challenge + XP shop */
+.emoji-big{font-size:76px;text-align:center;margin:15px auto 4px;min-height:90px;display:grid;place-items:center;animation:bob 2s ease-in-out infinite}
+.emoji-options{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.emoji-option{min-height:105px;border:2px solid var(--line);border-radius:16px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--ink);font-size:37px;transition:.15s}
+.emoji-option span{font-size:12px;font-weight:900;color:var(--muted)}
+.emoji-option:hover{transform:translateY(-2px);border-color:var(--blue);background:#f5fbff}
+.emoji-option.correct{border-color:var(--green);background:#edffe4}
+.emoji-option.wrong{border-color:var(--red);background:#fff0f0}
+.xp-wallet{background:#fff4d4;color:#966700;padding:9px 13px;border-radius:30px;font-weight:1000;white-space:nowrap}
+.shop-grid{display:grid;gap:12px;margin-top:18px}
+.shop-item{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:14px;border:1px solid var(--line);border-radius:17px;padding:14px}
+.shop-icon{width:58px;height:58px;border-radius:16px;background:#f1f5ff;display:grid;place-items:center;font-size:32px}
+.shop-info h3{margin:0 0 3px;font-size:17px}.shop-info p{margin:0 0 6px;color:var(--muted);font-size:12px;line-height:1.4;font-weight:700}.price{color:#b17a00;font-size:13px}.buy{white-space:nowrap;padding:10px 13px}.buy:disabled{opacity:.4;cursor:not-allowed}.shop-note{background:#f7f9fa;border-radius:12px;padding:12px;color:var(--muted);font-size:12px;font-weight:750}
+@media(max-width:560px){.shop-item{grid-template-columns:48px 1fr}.shop-icon{width:45px;height:45px;font-size:25px}.shop-item .buy{grid-column:1/-1;width:100%}.emoji-options{grid-template-columns:1fr 1fr}.emoji-option{min-height:90px}}
