@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#58cc02"><title>English Exam Quest · Second Partial</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span>🦉</span><span>ENGLISH EXAM QUEST</span></a>
+  <div class="stats"><span class="stat">⚡ <b id="xp">0</b> XP</span><span class="stat">🔥 <b id="streak">0</b></span><span class="stat">✓ <b id="correct">0</b></span></div>
+</header>
+<main class="app">
+<section class="welcome card">
+ <div><p class="eyebrow">SECOND PARTIAL · B2 REVIEW</p><h1>Prepárate para tu examen<br><span>sin aprenderte todo de memoria.</span></h1>
+ <p class="sub">Tutorial paso a paso, ejemplos traducidos y práctica basada en tus dos PDFs.</p></div><div class="hero-art">📚</div>
+ <div class="progress-wrap"><div class="progress-label"><span>Tu práctica</span><b id="progress-label">0 respuestas correctas</b></div><div class="progress"><div id="progress-bar"></div></div></div>
+</section>
+<nav class="mode-grid">
+ <button class="mode active" data-mode="tutorial"><span>🧑‍🏫</span><b>Tutorial</b><small>Aprende la gramática</small></button>
+ <button class="mode" data-mode="vocab"><span>🧠</span><b>Vocabulario</b><small>Palabras del PDF</small></button>
+ <button class="mode" data-mode="practice"><span>✍️</span><b>Practicar</b><small>Preguntas tipo examen</small></button>
+ <button class="mode" data-mode="exam"><span>⏱️</span><b>Simulacro</b><small>15 preguntas aleatorias</small></button>
+ <button class="mode" data-mode="reading"><span>📖</span><b>Reading</b><small>Comprensión lectora</small></button>
+ <button class="mode" data-mode="writing"><span>✍️</span><b>Writing</b><small>Texto de 80–120 palabras</small></button>
+</nav>
+
+<section id="tutorial" class="game card">
+ <div class="section-head"><div><p class="eyebrow">MODO TUTORIAL</p><h2>Entiende cada tema</h2></div><span class="counter" id="lesson-counter">1 / 5</span></div>
+ <div class="lesson-tabs" id="lesson-tabs"></div>
+ <article class="lesson">
+  <span class="lesson-tag" id="lesson-tag">GRAMMAR</span><h3 id="lesson-title"></h3><p class="lesson-intro" id="lesson-intro"></p>
+  <div id="lesson-content"></div>
+  <div class="remember" id="lesson-remember"></div>
+ </article>
+ <div class="controls"><button class="btn secondary" id="lesson-prev">← Anterior</button><button class="btn primary" id="lesson-next">Siguiente tema →</button></div>
+</section>
+
+<section id="vocab" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">VOCABULARY BUILDER</p><h2>Palabras que sí vienen en tu review</h2></div><span class="counter" id="vocab-counter">1 / 44</span></div>
+ <div class="flashcard" id="vocab-card"><span class="card-hint">TOCA PARA REVELAR</span><div class="big-word" id="vocab-word">ANXIOUS</div><span class="category" id="vocab-category">Feelings and emotions</span><div id="vocab-answer" class="hidden"><div class="mini-meaning" id="vocab-meaning"></div><p id="vocab-example"></p></div></div>
+ <div class="controls"><button class="btn secondary" id="vocab-prev">← Anterior</button><button class="btn primary" id="vocab-next">Ya la sé →</button></div>
+ <div class="dictionary" id="dictionary"></div>
+</section>
+
+<section id="practice" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">PRACTICE MODE</p><h2 id="practice-heading">Comprueba si lo entendiste</h2></div><span class="counter" id="practice-counter">1 / 10</span></div>
+ <div class="filters"><button class="filter active" data-filter="all">Todo</button><button class="filter" data-filter="however">However / relatives</button><button class="filter" data-filter="cause">Cause & effect</button><button class="filter" data-filter="sense">Sense verbs</button><button class="filter" data-filter="used">Used to</button><button class="filter" data-filter="vocab">Vocabulary</button><button class="filter" data-filter="cloze">Cloze test</button><button class="filter" data-filter="transform">Transformations</button></div>
+ <div class="question-word" id="question-word">HOWEVER</div><p class="question" id="question-text"></p><div class="answers" id="answers"></div>
+ <div class="feedback hidden" id="feedback"></div>
+ <div class="controls right"><button class="btn primary" id="next-question" disabled>Siguiente →</button></div>
+</section>
+
+<section id="exam" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">SECOND PARTIAL MOCK EXAM</p><h2>Simulacro de examen</h2></div><span class="counter" id="exam-counter">0 / 15</span></div>
+ <p class="sub">15 preguntas aleatorias de las secciones de vocabulario y gramática del worksheet. Sin pistas hasta responder.</p>
+ <div class="timer-line"><span>⏱️ <b id="exam-time">15:00</b></span><div class="timer-track"><div id="exam-bar"></div></div></div>
+ <div class="question-word" id="exam-word">READY?</div><p class="question" id="exam-question">Pulsa comenzar cuando estés listo.</p><div class="answers" id="exam-answers"></div>
+ <div class="feedback hidden" id="exam-feedback"></div>
+ <div class="controls"><button class="btn secondary" id="exam-start">▶ Comenzar</button><button class="btn primary" id="exam-next" disabled>Siguiente →</button></div>
+ <div id="exam-result" class="result hidden"></div>
+</section>
+
+<section id="reading" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">SECTION 1 · READING COMPREHENSION</p><h2>Leo's exchange year</h2></div><span class="counter" id="reading-counter">1 / 5</span></div>
+ <article class="lesson reading-passage">
+  <p>When Leo moved abroad for his exchange year, he initially felt incredibly <b>homesick</b> and <b>lonely</b> because he missed his family and familiar surroundings. One reason for his struggle was that he suffered from severe <b>insomnia</b>, unable to <b>fall asleep</b> on his firm new <b>mattress</b>. Every night, he would lie awake listening to his roommate <b>snore</b>, which only served to <b>keep him awake</b> even longer. Due to his lack of sleep, Leo became extremely <b>grumpy</b> and <b>irritated</b> during morning classes, often <b>nodding off</b> at his desk. As a result, he worried he would <b>oversleep</b> and miss important exams.</p>
+  <p>However, things changed whenever he joined the school theater group. Whoever spoke to Leo noticed a dramatic transformation; he appeared much more <b>cheerful</b> and <b>grateful</b> for the opportunity. Over time, he learned to <b>get used to</b> his new schedule. Now, wherever he goes on campus, he feels <b>thrilled</b> and <b>relieved</b> to have adapted so well.</p>
+ </article>
+ <div class="reading-question" id="reading-question"></div>
+ <div class="answers" id="reading-answers"></div>
+ <div class="feedback hidden" id="reading-feedback"></div>
+ <div class="controls right"><button class="btn primary" id="reading-next" disabled>Siguiente →</button></div>
+ <div class="result hidden" id="reading-result"></div>
+ <div class="rule"><b>Critical Analysis — responde en 1–2 oraciones</b><br>Explain how Leo's experience shows the transition from feeling overwhelmed to getting used to a new environment.</div>
+ <textarea id="reading-short-answer" rows="3" placeholder="Leo felt overwhelmed because..."></textarea>
+ <div class="controls right"><button class="btn secondary" id="reading-model-button">Ver respuesta modelo</button></div>
+ <div class="example hidden" id="reading-model-answer"><b>Possible answer:</b><p>At first, Leo felt homesick and lonely, and his insomnia affected his mood at school. After joining the theater group, he became more cheerful and gradually got used to his new schedule.</p></div>
+</section>
+
+<section id="writing" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">SECTION 6 · SHORT WRITING TASK</p><h2>Write your paragraph</h2></div><span class="counter">80–120 words</span></div>
+ <p class="sub">Describe una situación donde un estudiante enfrenta un problema relacionado con el sueño o el estrés antes de un evento importante. Explica qué pasó y cómo se resolvió.</p>
+ <div class="rule"><b>Requisitos obligatorios del worksheet</b><br>• Al menos 3 palabras: anxious, fast asleep, furious, oversleep, insomnia, relieved, envious.<br>• Al menos 2 estructuras de causa/efecto: because of, consequently, leads to, since, as a result.</div>
+ <label class="writing-label" for="writing-text">Tu párrafo en inglés:</label>
+ <textarea id="writing-text" rows="8" placeholder="A student felt anxious before an important exam because..."></textarea>
+ <div class="writing-meta"><b id="word-count">0 palabras</b><span id="word-range">Meta: 80–120 palabras</span></div>
+ <div class="writing-checks" id="writing-checks"></div>
+ <div class="controls"><button class="btn secondary" id="writing-example">Ver ejemplo</button><button class="btn primary" id="writing-check">Revisar requisitos</button></div>
+ <div class="feedback hidden" id="writing-feedback"></div>
+ <div class="example hidden" id="writing-model"><b>Ejemplo modelo (90 palabras):</b><p>Ana felt anxious before her final exam because of her insomnia. She stayed awake studying and was afraid she would oversleep. The lack of rest led to poor concentration, and consequently she made mistakes during practice. Her friend helped her organize a study schedule and encouraged her to rest. That night, Ana finally slept and woke up on time. She felt relieved because she was prepared. Although she had been stressed, she learned that good sleep habits can make a big difference before an important event.</p></div>
+</section>
+
+<footer>Contenido basado en Vocabulary 2 y Second Partial English Review Worksheet. Practica también Reading Comprehension y Short Writing Task en tu hoja.</footer>
+</main>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body></html>
