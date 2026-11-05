@@ -8,3 +8,20 @@
 .lesson .rule{line-height:1.5}
 .lesson .example{line-height:1.5}
 .answer:focus-visible,.btn:focus-visible,.mode:focus-visible{outline:3px solid #1c78d5;outline-offset:3px}
+
+.mode-grid{grid-template-columns:repeat(3,1fr)}
+.reading-passage{line-height:1.7;margin:16px 0}
+.reading-passage p{margin:0 0 12px}
+.reading-question{font-size:18px;font-weight:900;margin:18px 0 12px}
+.writing-label{display:block;font-weight:900;margin:15px 0 7px}
+#writing-text{width:100%;resize:vertical;border:2px solid var(--line);border-radius:14px;padding:14px;font:600 15px Nunito;color:var(--ink);line-height:1.5}
+#writing-text:focus{outline:3px solid #b9e6ff;border-color:var(--blue)}
+.writing-meta{display:flex;justify-content:space-between;gap:10px;margin:8px 0;font-size:13px;font-weight:900}
+.writing-checks{display:grid;gap:7px;margin:12px 0}
+.writing-check{padding:9px 12px;border-radius:10px;font-weight:800;background:#f1f5f6}
+.writing-check.pass{background:#edffe4;color:#2d7600}
+.writing-check.pending{background:#fff4df;color:#99500c}
+@media(max-width:700px){.mode-grid{grid-template-columns:repeat(2,1fr)}}
+
+#reading-short-answer{width:100%;resize:vertical;border:2px solid var(--line);border-radius:14px;padding:12px;font:600 15px Nunito;color:var(--ink)}
+#reading-short-answer:focus{outline:3px solid #b9e6ff;border-color:var(--blue)}
