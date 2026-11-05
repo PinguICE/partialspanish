@@ -1,132 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#58cc02">
-  <title>Vocab Quest — Aprende jugando</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#58cc02"><title>English Exam Quest · Second Partial</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#" aria-label="Vocab Quest inicio"><span class="owl">🦉</span><span>VOCAB QUEST</span></a>
-    <div class="stats">
-      <span class="stat">⚡ <b id="xp">0</b> XP</span>
-      <span class="stat">🔥 <b id="streak">0</b></span>
-      <span class="stat">🏆 <b id="mastered">0</b>/15</span>
-    </div>
-  </header>
+<header class="topbar">
+  <a class="brand" href="#"><span>🦉</span><span>ENGLISH EXAM QUEST</span></a>
+  <div class="stats"><span class="stat">⚡ <b id="xp">0</b> XP</span><span class="stat">🔥 <b id="streak">0</b></span><span class="stat">✓ <b id="correct">0</b></span></div>
+</header>
+<main class="app">
+<section class="welcome card">
+ <div><p class="eyebrow">SECOND PARTIAL · B2 REVIEW</p><h1>Prepárate para tu examen<br><span>sin aprenderte todo de memoria.</span></h1>
+ <p class="sub">Tutorial paso a paso, ejemplos traducidos y práctica basada en tus dos PDFs.</p></div><div class="hero-art">📚</div>
+ <div class="progress-wrap"><div class="progress-label"><span>Tu práctica</span><b id="progress-label">0 respuestas correctas</b></div><div class="progress"><div id="progress-bar"></div></div></div>
+</section>
+<nav class="mode-grid">
+ <button class="mode active" data-mode="tutorial"><span>🧑‍🏫</span><b>Tutorial</b><small>Aprende la gramática</small></button>
+ <button class="mode" data-mode="vocab"><span>🧠</span><b>Vocabulario</b><small>Palabras del PDF</small></button>
+ <button class="mode" data-mode="practice"><span>✍️</span><b>Practicar</b><small>Preguntas tipo examen</small></button>
+ <button class="mode" data-mode="exam"><span>⏱️</span><b>Simulacro</b><small>Mezcla de temas</small></button>
+</nav>
 
-  <main class="app">
-    <section class="welcome card">
-      <div>
-        <p class="eyebrow">S2 · VOCABULARIO 1</p>
-        <h1>¡Aprende palabras difíciles<br><span>de forma fácil!</span></h1>
-        <p class="sub">Primero entiende la mini explicación. Después juega hasta recordarla.</p>
-      </div>
-      <div class="welcome-art" aria-hidden="true">📚✨</div>
-      <div class="progress-wrap">
-        <div class="progress-label"><span>Tu progreso</span><b id="progress-label">0 de 15 dominadas</b></div>
-        <div class="progress"><div id="progress-bar"></div></div>
-      </div>
-    </section>
+<section id="tutorial" class="game card">
+ <div class="section-head"><div><p class="eyebrow">MODO TUTORIAL</p><h2>Entiende cada tema</h2></div><span class="counter" id="lesson-counter">1 / 5</span></div>
+ <div class="lesson-tabs" id="lesson-tabs"></div>
+ <article class="lesson">
+  <span class="lesson-tag" id="lesson-tag">GRAMMAR</span><h3 id="lesson-title"></h3><p class="lesson-intro" id="lesson-intro"></p>
+  <div id="lesson-content"></div>
+  <div class="remember" id="lesson-remember"></div>
+ </article>
+ <div class="controls"><button class="btn secondary" id="lesson-prev">← Anterior</button><button class="btn primary" id="lesson-next">Siguiente tema →</button></div>
+</section>
 
-    <nav class="mode-grid" aria-label="Modos de juego">
-      <button class="mode active" data-mode="learn"><span>🧠</span><b>Aprender</b><small>Mini significados</small></button>
-      <button class="mode" data-mode="quiz"><span>📝</span><b>Quiz</b><small>Tipo Quizlet</small></button>
-      <button class="mode" data-mode="kahoot"><span>🎮</span><b>Kahoot</b><small>Contra el reloj</small></button>
-      <button class="mode" data-mode="emoji"><span>😎</span><b>Emoji challenge</b><small>Adivina con emojis</small></button>
-      <button class="mode" data-mode="write"><span>✍️</span><b>Escribir</b><small>Practica el recuerdo</small></button>
-      <button class="mode" data-mode="review"><span>📖</span><b>Diccionario</b><small>Las 15 palabras</small></button>
-      <button class="mode shop-mode" data-mode="shop"><span>🛒</span><b>Tienda XP</b><small>Compra poderes</small></button>
-    </nav>
+<section id="vocab" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">VOCABULARY BUILDER</p><h2>Palabras que sí vienen en tu review</h2></div><span class="counter" id="vocab-counter">1 / 45</span></div>
+ <div class="flashcard" id="vocab-card"><span class="card-hint">TOCA PARA REVELAR</span><div class="big-word" id="vocab-word">ANXIOUS</div><span class="category" id="vocab-category">Feelings and emotions</span><div id="vocab-answer" class="hidden"><div class="mini-meaning" id="vocab-meaning"></div><p id="vocab-example"></p></div></div>
+ <div class="controls"><button class="btn secondary" id="vocab-prev">← Anterior</button><button class="btn primary" id="vocab-next">Ya la sé →</button></div>
+ <div class="dictionary" id="dictionary"></div>
+</section>
 
-    <section id="learn" class="game card">
-      <div class="section-head"><div><p class="eyebrow">MODO APRENDER</p><h2>Una palabra a la vez</h2></div><span class="counter" id="learn-counter">1 / 15</span></div>
-      <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Toca para mostrar la explicación">
-        <span class="card-hint" id="learn-hint">TOCA PARA VER LA EXPLICACIÓN</span>
-        <div class="big-word" id="learn-word">HENDER</div>
-        <span class="category" id="learn-category">Verbo</span>
-        <div class="mini-meaning hidden" id="learn-mini"></div>
-        <div class="full-meaning hidden" id="learn-full"></div>
-        <div class="memory-tip hidden" id="learn-tip"></div>
-      </div>
-      <div class="controls"><button class="btn secondary" id="learn-prev">← Anterior</button><button class="btn primary" id="learn-next">Ya la entendí → ↵</button></div>
-      <p class="keyboard-hint">Atajo: pulsa <kbd>Enter</kbd> para pasar a la siguiente.</p>
-    </section>
+<section id="practice" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">PRACTICE MODE</p><h2 id="practice-heading">Comprueba si lo entendiste</h2></div><span class="counter" id="practice-counter">1 / 10</span></div>
+ <div class="filters"><button class="filter active" data-filter="all">Todo</button><button class="filter" data-filter="however">However / relatives</button><button class="filter" data-filter="cause">Cause & effect</button><button class="filter" data-filter="sense">Sense verbs</button><button class="filter" data-filter="used">Used to</button><button class="filter" data-filter="vocab">Vocabulary</button></div>
+ <div class="question-word" id="question-word">HOWEVER</div><p class="question" id="question-text"></p><div class="answers" id="answers"></div>
+ <div class="feedback hidden" id="feedback"></div>
+ <div class="controls right"><button class="btn primary" id="next-question" disabled>Siguiente →</button></div>
+</section>
 
-    <section id="quiz" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">MODO QUIZ</p><h2>Elige la respuesta correcta</h2></div><span class="counter" id="quiz-counter">1 / 10</span></div>
-      <div class="timer-line"><span>⏱️ <b id="quiz-time">40</b>s</span><div class="timer-track"><div id="quiz-timer-bar"></div></div></div>
-      <div class="question-word" id="quiz-word">HENDER</div>
-      <p class="question" id="quiz-question">¿Qué significa?</p>
-      <div class="answers" id="quiz-answers"></div>
-      <div class="feedback hidden" id="quiz-feedback"></div>
-      <div class="controls right"><button class="btn secondary hidden" id="quiz-practice">🔁 Practicar esta palabra ×3</button><button class="btn primary" id="quiz-next" disabled>Enviar / Siguiente ↵</button></div>
-      <p class="keyboard-hint">Atajo: pulsa <kbd>Enter</kbd> para continuar.</p>
-    </section>
-
-    <section id="kahoot" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">MODO KAHOOT</p><h2>¡Ronda relámpago!</h2></div><span class="counter" id="kahoot-counter">1 / 10</span></div>
-      <div class="kahoot-score"><span>⚡ <b id="kahoot-points">0</b> puntos</span><span>⏳ <b id="kahoot-time">15</b>s</span></div>
-      <div class="question-word" id="kahoot-word">HENDER</div>
-      <p class="question">Selecciona la mini definición correcta</p>
-      <div class="kahoot-answers" id="kahoot-answers"></div>
-      <div class="feedback hidden" id="kahoot-feedback"></div>
-      <div class="controls right"><button class="btn secondary hidden" id="kahoot-practice">🔁 Practicar esta palabra ×3</button><button class="btn primary" id="kahoot-next" disabled>Siguiente ronda ↵</button></div>
-      <p class="keyboard-hint">Atajo: pulsa <kbd>Enter</kbd> para continuar.</p>
-      <button class="btn secondary start-btn" id="kahoot-start">▶ Empezar partida</button>
-    </section>
-
-    <section id="emoji" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">EMOJI CHALLENGE</p><h2>¡Descifra la palabra!</h2></div><span class="counter" id="emoji-counter">1 / 10</span></div>
-      <p class="sub">Mira los emojis y elige el que mejor representa el significado de la palabra.</p>
-      <div class="question-word" id="emoji-word">AHERROJAR</div>
-      <div class="emoji-big" id="emoji-clue">⛓️</div>
-      <p class="question">¿Qué emoji representa mejor esta palabra?</p>
-      <div class="emoji-options" id="emoji-options"></div>
-      <div class="feedback hidden" id="emoji-feedback"></div>
-      <div class="controls right"><button class="btn primary" id="emoji-next" disabled>Siguiente ↵</button></div>
-    </section>
-
-    <section id="write" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">MODO ESCRIBIR</p><h2>Explícalo con tus palabras</h2></div><span class="counter" id="write-counter">1 / 15</span></div>
-      <div class="question-word" id="write-word">HENDER</div>
-      <p class="question">Escribe una explicación corta de su significado.</p>
-      <textarea id="write-input" rows="3" placeholder="Ejemplo: significa abrir o rajar algo..."></textarea>
-      <div class="feedback hidden" id="write-feedback"></div>
-      <div class="controls right"><button class="btn primary" id="write-check">Revisar respuesta</button></div>
-    </section>
-
-    <section id="review" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">TU DICCIONARIO</p><h2>Las 15 palabras del examen</h2></div><span class="counter">S2</span></div>
-      <div class="dictionary" id="dictionary"></div>
-    </section>
-
-    <section id="shop" class="game card hidden">
-      <div class="section-head"><div><p class="eyebrow">TIENDA DE PODERES</p><h2>Compra con tus XP</h2></div><span class="xp-wallet">⚡ <b id="shop-xp">0</b> XP</span></div>
-      <p class="sub">Ahorra tus puntos. Los poderes son caros porque pueden salvarte en preguntas difíciles.</p>
-      <div class="shop-grid">
-        <article class="shop-item">
-          <div class="shop-icon">⏭️</div><div class="shop-info"><h3>Skip de pregunta</h3><p>Salta la pregunta actual de Quiz o Kahoot sin perder una vida. No da puntos por esa pregunta.</p><b class="price">⚡ 120 XP</b></div>
-          <button class="btn primary buy" data-item="skip">Comprar</button>
-        </article>
-        <article class="shop-item">
-          <div class="shop-icon">🔮</div><div class="shop-info"><h3>Revelar respuesta</h3><p>Revela la respuesta correcta de la pregunta actual. No recibirás puntos por responderla.</p><b class="price">⚡ 250 XP</b></div>
-          <button class="btn primary buy" data-item="reveal">Comprar</button>
-        </article>
-      </div>
-      <p class="shop-note">💡 Abre la tienda durante una partida o antes de empezar. Los poderes se aplican a la pregunta actual del modo Quiz o Kahoot.</p>
-      <div class="controls right"><button class="btn secondary" id="back-game">Volver al juego</button></div>
-    </section>
-
-    <section id="results" class="game card hidden">
-      <div class="result-icon">🏆</div><h2 id="result-title">¡Buen trabajo!</h2><p id="result-text" class="sub"></p>
-      <button class="btn primary" id="result-again">Jugar otra vez</button>
-    </section>
-    <footer>Consejo: aprende la idea corta, recuerda el truco y luego practica con ejemplos.</footer>
-  </main>
-  <div id="toast" class="toast" role="status"></div>
-  <script src="script.js"></script>
-</body>
-</html>
+<section id="exam" class="game card hidden">
+ <div class="section-head"><div><p class="eyebrow">SECOND PARTIAL MOCK EXAM</p><h2>Simulacro de examen</h2></div><span class="counter" id="exam-counter">0 / 15</span></div>
+ <p class="sub">15 preguntas mezcladas de vocabulario y gramática de tu worksheet. Sin pistas hasta responder.</p>
+ <div class="timer-line"><span>⏱️ <b id="exam-time">15:00</b></span><div class="timer-track"><div id="exam-bar"></div></div></div>
+ <div class="question-word" id="exam-word">READY?</div><p class="question" id="exam-question">Pulsa comenzar cuando estés listo.</p><div class="answers" id="exam-answers"></div>
+ <div class="feedback hidden" id="exam-feedback"></div>
+ <div class="controls"><button class="btn secondary" id="exam-start">▶ Comenzar</button><button class="btn primary" id="exam-next" disabled>Siguiente →</button></div>
+ <div id="exam-result" class="result hidden"></div>
+</section>
+<footer>Contenido adaptado de Vocabulary 2 y Second Partial English Review Worksheet.</footer>
+</main>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body></html>

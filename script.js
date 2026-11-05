@@ -1,224 +1,130 @@
-// Vocab Quest — contenido basado en el PDF S2 Vocabulario 1.
-const WORDS = [
- {w:"Hender",cat:"Verbo",mini:"Abrir o rajar algo, sin partirlo por completo.",full:"Abrir o rajar un cuerpo sólido sin dividirlo del todo; también abrirse paso o rasgar el aire o el agua.",tip:"Imagina una tabla con una grieta: está rajada, pero sigue siendo una sola pieza.",example:"El carpintero tuvo que hender la madera."},
- {w:"Aherrojar",cat:"Verbo",mini:"Poner cadenas o hierros a alguien; también someterlo.",full:"Poner grillos o cadenas (hierros) a un prisionero; oprimir o subyugar.",tip:"Truco: «hierros» = cadenas. Aherrojar es ponerle hierros a alguien.",example:"Los guardias solían aherrojar a los prisioneros."},
- {w:"Orondo",cat:"Adjetivo",mini:"Hinchado o muy orgulloso de sí mismo.",full:"Hueco, hinchado o redondo; también se dice de alguien satisfecho de sí mismo y con aires de importancia.",tip:"Imagina a alguien caminando con el pecho inflado porque está muy orgulloso.",example:"Caminaba orondo por el pasillo."},
- {w:"Prono",cat:"Adjetivo",mini:"Inclinado hacia delante o acostado boca abajo.",full:"Inclinado hacia adelante, propenso a algo, o tendido boca abajo.",tip:"Piensa en estar boca abajo, con el pecho mirando al suelo.",example:"El atleta quedó tendido en posición prona."},
- {w:"Solaz",cat:"Sustantivo",mini:"Descanso, gusto o alivio después del cansancio.",full:"Descanso, esparcimiento, placer o consuelo que se toma de las fatigas o penas.",tip:"Solaz suena a «sol y paz»: un descanso que te hace sentir bien.",example:"El paseo fue un solaz para su espíritu."},
- {w:"Óbice",cat:"Sustantivo",mini:"Un obstáculo que no te deja avanzar.",full:"Obstáculo, estorbo o impedimento para algo.",tip:"Visualiza una piedra enorme en medio de tu camino: ese es el óbice.",example:"El único óbice era conseguir una recomendación."},
- {w:"Vituperio",cat:"Sustantivo",mini:"Un insulto o una crítica muy dura.",full:"Insulto, ofensa o censura muy dura que se dirige a alguien.",tip:"Vituperio = palabras muy duras contra una persona.",example:"Sus palabras se convirtieron en un vituperio."},
- {w:"Deletéreo",cat:"Adjetivo",mini:"Venenoso o capaz de causar un daño grave.",full:"Mortífero o venenoso; puede causar la muerte o un daño grave.",tip:"Relaciona «deletéreo» con «letal»: algo que puede hacer mucho daño.",example:"Las emanaciones contaminantes pueden ser deletéreas."},
- {w:"Inicuo",cat:"Adjetivo",mini:"Injusto o malvado.",full:"Malvado, injusto, que no tiene equidad.",tip:"Inicuo se relaciona con iniquidad: falta de justicia.",example:"Fue un castigo inicuo."},
- {w:"Efeméride",cat:"Sustantivo",mini:"Una fecha en la que se recuerda algo importante.",full:"Acontecimiento notable que se celebra el día en que ocurre o se cumple un aniversario.",tip:"Piensa en el calendario: una fecha especial que recuerda un acontecimiento.",example:"La caída del muro es una efeméride histórica."},
- {w:"Acuciar",cat:"Verbo",mini:"Apurar o meter prisa.",full:"Apresurar, dar prisa o urgir la ejecución de algo.",tip:"Acuciar = hacer que alguien se apure porque el tiempo se acaba.",example:"La fecha límite comenzó a acuciar al equipo."},
- {w:"Apócrifo",cat:"Adjetivo",mini:"Falso o de autoría dudosa.",full:"Dicho de un escrito o una obra: de autoría no auténtica o dudosa; falso o fingido.",tip:"Piensa en un libro con una firma falsa: parece auténtico, pero no lo es.",example:"El historiador encontró un manuscrito apócrifo."},
- {w:"Perentorio",cat:"Adjetivo",mini:"Urgente: no se puede aplazar.",full:"Definitivo, concluyente o urgente; no admite dilación o aplazamiento.",tip:"Perentorio = no hay prórroga. ¡Tiene que hacerse ya!",example:"El plazo para entregar el trabajo era perentorio."},
- {w:"Yermo",cat:"Sustantivo / Adjetivo",mini:"Un terreno vacío, deshabitado y sin cultivar.",full:"Terreno despoblado e incultivado; también describe algo despoblado o inhabitado.",tip:"Imagina un terreno seco, vacío y sin casas ni cultivos.",example:"El paisaje del desierto parecía yermo."},
- {w:"Displicente",cat:"Adjetivo",mini:"Que muestra desagrado o hace algo sin interés.",full:"Que muestra desagrado o falta de interés y afecto al realizar algo.",tip:"Imagina a alguien atendiendo de mala gana, sin ganas de ayudar.",example:"El mesero atendió con actitud displicente."}
-];
-const EMOJIS = [
- {emoji:"🪵",label:"rajar / abrir",wrong:["⛓️","🏖️","📅"]},
- {emoji:"⛓️",label:"poner cadenas",wrong:["🪵","🏜️","🎉"]},
- {emoji:"🤴",label:"hinchado de orgullo",wrong:["⛓️","🧱","📅"]},
- {emoji:"🤸",label:"inclinado / boca abajo",wrong:["🏖️","☠️","📅"]},
- {emoji:"🏖️",label:"descanso y placer",wrong:["⛓️","🚨","🤬"]},
- {emoji:"🧱",label:"obstáculo",wrong:["📅","🏖️","🤴"]},
- {emoji:"🤬",label:"insulto muy duro",wrong:["🪵","🏖️","📅"]},
- {emoji:"☠️",label:"venenoso / dañino",wrong:["🎉","🤴","🏖️"]},
- {emoji:"⚖️",label:"injusto / malvado",wrong:["🏖️","🪵","📅"]},
- {emoji:"📅",label:"fecha importante",wrong:["⛓️","☠️","🤬"]},
- {emoji:"⏰",label:"meter prisa",wrong:["🏜️","🏖️","🤴"]},
- {emoji:"🎭",label:"falso / no auténtico",wrong:["🧱","⛓️","📅"]},
- {emoji:"🚨",label:"urgente, no aplazable",wrong:["🏖️","🎉","🪵"]},
- {emoji:"🏜️",label:"terreno vacío",wrong:["🤬","📅","⛓️"]},
- {emoji:"🙄",label:"desagrado / poco interés",wrong:["🏖️","🪵","📅"]}
-];
 const $=id=>document.getElementById(id);
-function requireElement(id){const el=$(id);if(!el)throw new Error(`Falta el elemento #${id} en index.html`);return el;}
-let xp=0,streak=0,mastered=new Set(),learnOrder=shuffle(WORDS.map((_,i)=>i)),learnIndex=0,quizSet=[],quizIndex=0,quizTimer=null,quizSeconds=40,quizLocked=false,kahootSet=[],kahootIndex=0,kahootTimer=null,kahootSeconds=15,kahootPoints=0,kahootLocked=true,writeOrder=shuffle(WORDS.map((_,i)=>i)),writeIndex=0,writeAnswered=false,practiceMode=null,practiceId=null,practiceRemaining=0;
-const panels=["learn","quiz","kahoot","emoji","write","review","shop","results"];
+let xp=0,streak=0,correctTotal=0,lessonIndex=0,vocabIndex=0,practiceSet=[],practiceIndex=0,practiceLocked=false,examSet=[],examIndex=0,examScore=0,examTimer=null,examSeconds=900,examLocked=true;
+const lessons=[
+{tag:"CONNECTORS · CONTRAST",title:"HOWEVER: las dos formas que debes distinguir",intro:"Esta palabra aparece en tu transformación de oraciones. Ojo: tiene dos usos diferentes.",body:`
+<div class="rule">1) HOWEVER = “sin embargo” (contraste entre dos ideas). Normalmente conecta dos oraciones; puede ir al inicio o en medio.</div>
+<div class="example"><b>I was tired. However, I studied.</b><span class="translation">Estaba cansado. Sin embargo, estudié.</span></div>
+<div class="example"><b>I was tired; however, I studied.</b><span class="translation">También es correcto: punto y coma antes de however y coma después.</span></div>
+<div class="rule">2) HOWEVER + adjective/adverb = “por muy… que / sin importar qué tan…”. La estructura es: <b>However + adjective/adverb + subject + verb</b>.</div>
+<div class="example"><b>However tired I am, I will study.</b><span class="translation">Por muy cansado que esté, estudiaré.</span></div>
+<div class="example"><b>However long it takes, I will finish.</b><span class="translation">No importa cuánto tiempo tome, terminaré.</span></div>
+<div class="rule">También memoriza estas expresiones del vocabulario: <b>however old</b> (sin importar la edad), <b>however much/many</b> (sin importar cuánto/cuántos), <b>however long</b> (sin importar cuánto tiempo).</div>
+<div class="example">Worksheet #1: “It doesn't matter how long it takes; I am determined to solve this problem.” → <b>However long it takes, I am determined to solve this problem.</b></div>`,remember:"TRUCO: si significa “sin embargo”, contrasta dos ideas. Si después viene un adjetivo como LONG, OLD o MUCH/MANY, significa “sin importar qué tan/cuánto”."},
+{tag:"INDEFINITE EXPRESSIONS",title:"Whatever, whenever, wherever, whoever, whichever",intro:"Todas empiezan con wh- y expresan “no importa qué / cuándo / dónde / quién / cuál”.",body:`
+<div class="rule"><b>Whatever</b> = cualquier cosa que / no importa qué.</div><div class="example"><b>Do whatever you want.</b><span class="translation">Haz lo que quieras.</span></div>
+<div class="rule"><b>Whenever</b> = cuando sea / en cualquier momento que.</div><div class="example"><b>Call me whenever you need help.</b><span class="translation">Llámame cuando necesites ayuda.</span></div>
+<div class="rule"><b>Wherever</b> = donde sea.</div><div class="example"><b>I will follow you wherever you go.</b><span class="translation">Te seguiré dondequiera que vayas.</span></div>
+<div class="rule"><b>Whoever</b> = quien sea / cualquier persona que.</div><div class="example"><b>Whoever finishes first can leave.</b><span class="translation">Quien termine primero puede salir.</span></div>
+<div class="rule"><b>Whichever + noun</b> = cualquiera de las opciones (va seguido de un sustantivo).</div><div class="example"><b>Choose whichever course you prefer.</b><span class="translation">Elige el curso que prefieras.</span></div>`,remember:"TRUCO: WHAT = cosa, WHEN = tiempo, WHERE = lugar, WHO = persona, WHICH = opción. WHICHEVER suele llevar un sustantivo después."},
+{tag:"CAUSE & EFFECT",title:"Expresar causa y consecuencia",intro:"Causa = por qué pasó. Efecto = qué pasó como resultado.",body:`
+<div class="rule">PARA DAR LA CAUSA (razón):</div><div class="example"><b>because / since / as + subject + verb</b><span class="translation">Because he was tired, he went to bed. = Porque estaba cansado, se fue a dormir.</span></div>
+<div class="example"><b>because of / due to + noun o gerund (-ing)</b><span class="translation">The flight was delayed due to thick fog. = El vuelo se retrasó debido a la niebla espesa.</span></div>
+<div class="rule">PARA DAR EL RESULTADO (consecuencia):</div><div class="example"><b>therefore / consequently / as a result / so</b><span class="translation">He was tired; therefore, he went to bed. = Estaba cansado; por lo tanto, se fue a dormir.</span></div>
+<div class="example"><b>lead to / result in / cause + noun o -ing</b><span class="translation">Stress leads to exhaustion. = El estrés conduce al agotamiento.</span></div>
+<div class="example"><b>One reason for + noun + is that + sentence</b><span class="translation">One reason for his absence is that he was sick.</span></div>
+<div class="example"><b>... is the result of + noun</b><span class="translation">The cancellation was the result of heavy rain.</span></div>`,remember:"TRUCO DE EXAMEN: BECAUSE / SINCE + oración (sujeto + verbo). BECAUSE OF / DUE TO + sustantivo. THEREFORE / AS A RESULT anuncian consecuencia. LEADS TO / RESULTS IN van seguidos de sustantivo o verbo -ing."},
+{tag:"SENSE VERBS",title:"Look, sound, smell, taste, feel",intro:"Después de estos verbos puedes describir una sensación. El examen mezcla adjetivos, like y as if.",body:`
+<div class="rule">1) SENSE VERB + ADJECTIVE. No uses adverbio para describir la sensación.</div><div class="example"><b>The soup smells delicious.</b><span class="translation">La sopa huele deliciosa. (NO: smells deliciously)</span></div>
+<div class="example"><b>The juice tastes bitter.</b><span class="translation">El jugo sabe amargo.</span></div>
+<div class="rule">2) SENSE VERB + LIKE + NOUN / noun phrase (comparación con algo).</div><div class="example"><b>That sounds like a great idea.</b><span class="translation">Eso suena como una gran idea.</span></div><div class="example"><b>The thunder sounded like a loud explosion.</b></div>
+<div class="rule">3) SENSE VERB + AS IF + SUBJECT + VERB (parece que…).</div><div class="example"><b>She looks as if she hasn't slept.</b><span class="translation">Parece que no ha dormido.</span></div><div class="example"><b>It smells as if someone is burning toast.</b></div>`,remember:"TRUCO: adjetivo directo (smells delicious); LIKE + cosa (sounds like an explosion); AS IF + oración completa (looks as if she is tired)."},
+{tag:"PAST HABITS & ADJUSTMENT",title:"Used to, would, be used to, get used to",intro:"Este tema parece confuso porque se parecen, pero cada uno tiene una función.",body:`
+<div class="rule"><b>USED TO + verb base</b> = hábito o estado del pasado que ya no es verdad.</div><div class="example"><b>Sarah used to be shy.</b><span class="translation">Sarah antes era tímida (ahora ya no).</span></div>
+<div class="rule"><b>WOULD + verb base</b> = acción repetida en el pasado. No se usa normalmente para estados como be/know/like.</div><div class="example"><b>My grandfather would tell us stories.</b><span class="translation">Mi abuelo solía contarnos historias.</span></div>
+<div class="rule"><b>BE USED TO + noun / verb-ing</b> = ya estar acostumbrado.</div><div class="example"><b>I am used to working at night.</b><span class="translation">Estoy acostumbrado a trabajar de noche.</span></div>
+<div class="rule"><b>GET USED TO + noun / verb-ing</b> = proceso de acostumbrarse.</div><div class="example"><b>I'm getting used to waking up early.</b><span class="translation">Me estoy acostumbrando a levantarme temprano.</span></div>`,remember:"TRUCO: USED TO + verbo base. WOULD + verbo base (rutina repetida). BE USED TO / GET USED TO + sustantivo o verbo -ING. BE = ya acostumbrado; GET = proceso."}
+];
+const vocab=[
+["Anxious","Feeling worried or nervous","Ansioso / preocupado","She felt anxious before the exam.","Feelings"],
+["Bitter","Angry and hurt because of unfair treatment","Resentido / amargado","He felt bitter about the decision.","Feelings"],
+["Cheerful","Happy, positive and energetic","Alegre","She looked cheerful today.","Feelings"],
+["Envious","Wanting something that belongs to someone else","Envidioso","He was envious of his friend's success.","Feelings"],
+["Fed up","Annoyed after enduring something for a long time","Harto","I'm fed up with this noise.","Feelings"],
+["Furious","Extremely angry","Furioso","My dad was furious.","Feelings"],
+["Grateful","Thankful and appreciative","Agradecido","I'm grateful for your help.","Feelings"],
+["Grumpy","Easily annoyed; bad-tempered","Gruñón / de mal humor","He gets grumpy when he is tired.","Feelings"],
+["Homesick","Sad because you miss home","Extrañar tu hogar","She felt homesick abroad.","Feelings"],
+["Irritated","Slightly angry or annoyed","Irritado","I was irritated by the noise.","Feelings"],
+["Lonely","Sad because you are alone or disconnected","Solo","He felt lonely in the new city.","Feelings"],
+["Puzzled","Confused","Perplejo / confundido","They were puzzled by the question.","Feelings"],
+["Relieved","Happy because stress or danger ended","Aliviado","I felt relieved after the exam.","Feelings"],
+["Shocked","Extremely surprised or upset","Impactado","We were shocked by the news.","Feelings"],
+["Thrilled","Extremely excited and delighted","Emocionadísimo","She was thrilled to win.","Feelings"],
+["Fall asleep","Pass from awake into sleep","Quedarse dormido","I fall asleep at 10 p.m.","Sleep"],
+["Fast asleep","Completely and deeply asleep","Profundamente dormido","The baby is fast asleep.","Sleep"],
+["Go off","An alarm starts ringing","Sonar (alarma)","My alarm goes off at 6.","Sleep"],
+["Insomnia","Difficulty falling or staying asleep","Insomnio","Insomnia kept him awake.","Sleep"],
+["Keep you awake","Prevent you from sleeping","No dejarte dormir","The noise keeps me awake.","Sleep"],
+["Mattress","Soft pad on a bed","Colchón","This mattress is comfortable.","Sleep"],
+["Nap","A short daytime sleep","Siesta","I take a nap after lunch.","Sleep"],
+["Nod off","Fall asleep unintentionally","Cabecear / dormitar","He nodded off in class.","Sleep"],
+["Oversleep","Sleep longer than intended","Quedarse dormido de más","I overslept and missed the bus.","Sleep"],
+["Pillow","Cushion for your head","Almohada","I need another pillow.","Sleep"],
+["Set an alarm","Program an alarm","Poner una alarma","Set an alarm for 7 a.m.","Sleep"],
+["Sleepy","Tired and ready to sleep","Soñoliento","I feel sleepy.","Sleep"],
+["Snore","Make a noisy sound while sleeping","Roncar","My brother snores loudly.","Sleep"],
+["Yawn","Open your mouth when tired or bored","Bostezar","I yawn when I'm sleepy.","Sleep"],
+["Whatever","Anything / no matter what","Lo que sea","Do whatever you want.","Relative words"],
+["Whenever","At any time","Cuando sea","Call me whenever you need help.","Relative words"],
+["Wherever","In any place","Donde sea","Sit wherever you like.","Relative words"],
+["Whoever","Any person who","Quien sea","Whoever arrives first can start.","Relative words"],
+["Whichever (+ noun)","Any one option from a group","Cualquiera de las opciones","Choose whichever subject you prefer.","Relative words"],
+["However old","Regardless of age","Sin importar qué edad","However old you are, you can learn.","However"],
+["However long","Regardless of the time required","Sin importar cuánto tiempo","However long it takes, keep trying.","However"],
+["However much/many","Regardless of quantity/number","Sin importar cuánto/cuántos","However much it costs, compare first.","However"],
+["Because / since / as","Introduce a reason","Porque / ya que","Since it was late, we left.","Cause & effect"],
+["Because of / due to","Because of + noun or -ing","Debido a","The match was cancelled due to rain.","Cause & effect"],
+["Therefore / so / that's why","Introduce a result","Por lo tanto / por eso","It rained; therefore, we stayed home.","Cause & effect"],
+["As a result / consequence","State what happened because of something","Como resultado","As a result, sales increased.","Cause & effect"],
+["Lead to / result in / cause","One thing creates another","Conducir a / provocar","Stress can lead to exhaustion.","Cause & effect"],
+["One reason for... is that...","Introduce a reason","Una razón de... es que...","One reason for this is that he was tired.","Cause & effect"],
+["... is the result of","Shows the cause of an event","Es el resultado de","The delay is the result of fog.","Cause & effect"]
+];
+const questions=[
+["however","It doesn't matter how long it takes; I will finish.","Choose the correct transformation.","However long it takes, I will finish.","However long does it take, I will finish.","However it long takes, I will finish.","However long takes it, I will finish.","“However long” + subject + verb. No se invierte el orden."],
+["however","I was tired. ______, I finished my homework.","Choose the best connector.","However","Because of","Due to","As a result of","Aquí contrasta dos ideas: estaba cansado, pero terminé."],
+["however","______ old you are, you can learn something new.","Complete the expression.","However","Whenever","Whoever","Wherever","HOWEVER OLD = sin importar qué edad."],
+["however","You can call me at any time that you need help.","Rewrite using WHENEVER.","You can call me whenever you need help.","You can call me whoever you need help.","You can call me whatever you need help.","You can call me wherever you need help.","WHENEVER se refiere al tiempo: en cualquier momento que."],
+["however","You may select ______ elective course you prefer.","Choose the correct word.","whichever","whoever","whenever","whatever","WHICHEVER + noun: whichever elective course."],
+["cause","The flight was delayed ______ thick fog.","Complete with a cause phrase.","due to","therefore","as a result","consequently","DUE TO + sustantivo: thick fog."],
+["cause","He was ill; ______, he stayed home.","Choose the result connector.","therefore","because","due to","since","THEREFORE introduce la consecuencia."],
+["cause","Chronic stress often ______ severe exhaustion.","Choose the correct verb phrase.","leads to","because","since","due to","LEADS TO + sustantivo: severe exhaustion."],
+["cause","The cancellation of the match was ______ heavy rain.","Complete the transformation.","the result of","therefore","because","leads to","“Was the result of” indica la causa del evento."],
+["sense","That soup smells ______.","Choose the correct option.","delicious","deliciously","like delicious","as if delicious","SENSE VERB + adjetivo: smells delicious."],
+["sense","The thunder sounded ______ a loud explosion.","Choose the correct option.","like","as if","Ø","like as","LIKE + noun phrase: a loud explosion."],
+["sense","Elena looks ______ she hasn't slept in days.","Choose the correct option.","as if","like","as","Ø","AS IF + sujeto + verbo: she hasn't slept."],
+["sense","This grapefruit juice tastes ______.","Choose the correct option.","bitter","bitterly","like bitter","as bitterly","TASTES + adjetivo."],
+["used","Sarah ______ quite shy in middle school, but now she is outgoing.","Past state: choose the correct form.","used to be","would be","is used to be","get used to be","USED TO expresa un estado pasado; WOULD no suele usarse para estados."],
+["used","My grandfather ______ us stories every winter.","Repeated past action.","would tell","is used to tell","get used to tell","would telling","WOULD + verbo base para una acción repetida."],
+["used","I am used to ______ in loud environments.","Complete the structure.","working","work","worked","to work","BE USED TO + verbo -ING."],
+["used","I slowly ______ living in a colder climate.","Process of becoming accustomed.","got used to","used to","would","am used to","GET USED TO expresa el proceso de acostumbrarse."],
+["used","Did you ______ with a nightlight when you were a child?","Choose the correct form.","use to sleep","used to sleep","using to sleep","be used to sleep","En preguntas con DID, se usa USE TO + verbo base."],
+["vocab","Maya felt extremely ______ before her presentation because she was nervous.","Choose the vocabulary word.","anxious","cheerful","grateful","thrilled","ANXIOUS = worried or nervous."],
+["vocab","The alarm will ______ at 7:00 a.m.","Choose the phrasal verb.","go off","nod off","oversleep","snore","GO OFF = empezar a sonar (alarma)."],
+["vocab","He fell asleep unintentionally in class. He ______.","Choose the expression.","nodded off","went off","set an alarm","was fast asleep","NOD OFF = dormitar / quedarse dormido sin querer."],
+["vocab","After months of noise, I'm completely ______ with it.","Choose the expression.","fed up","relieved","puzzled","thrilled","FED UP = harto después de aguantar algo."],
+["vocab","They were ______ by the unexpected results.","Choose the word.","puzzled","grateful","homesick","cheerful","PUZZLED = confundido."],
+["vocab","I was so tired that I started to ______.","Choose the verb.","yawn","snore","nap","pillow","YAWN = bostezar."]
+];
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
-function updateStats(){ $("xp").textContent=xp;if($("shop-xp"))$("shop-xp").textContent=xp;$("streak").textContent=streak;$("mastered").textContent=mastered.size;$("progress-label").textContent=`${mastered.size} de 15 dominadas`;$("progress-bar").style.width=(mastered.size/15*100)+"%";}
-function addXP(n){xp+=n;updateStats();if($("shop")&&!$("shop").classList.contains("hidden"))renderShop()}
-function showMode(mode){if(!panels.includes(mode))return; if(mode!=="shop")currentGame=mode;clearInterval(quizTimer);clearInterval(kahootTimer);panels.forEach(p=>{const panel=$(p);if(panel)panel.classList.toggle("hidden",p!==mode)});document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));if(mode==="learn")renderLearn();if(mode==="quiz")startQuiz();if(mode==="kahoot")prepareKahoot();if(mode==="emoji")startEmoji();if(mode==="shop")renderShop();if(mode==="write")renderWrite();}
-document.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{
- const target=b.dataset.mode;
- if(target==="shop")returnGame=currentGame;
- showMode(target);
-}));
-
-function renderLearn(){const x=WORDS[learnOrder[learnIndex]];$("learn-counter").textContent=`${learnIndex+1} / 15`;$("learn-word").textContent=x.w.toUpperCase();$("learn-category").textContent=x.cat;$("learn-mini").textContent=x.mini;$("learn-full").textContent="Definición de clase: "+x.full;$("learn-tip").textContent="🧠 Truco para recordarla: "+x.tip;["learn-mini","learn-full","learn-tip"].forEach(id=>$(id).classList.add("hidden"));$("learn-hint").textContent="TOCA PARA VER LA EXPLICACIÓN";}
-function revealLearn(){["learn-mini","learn-full","learn-tip"].forEach(id=>$(id).classList.remove("hidden"));$("learn-hint").textContent="¡Lee la mini explicación y el truco!";}
-$("flashcard").addEventListener("click",revealLearn);$("flashcard").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();revealLearn();}});
-$("learn-prev").onclick=()=>{learnIndex=(learnIndex+14)%15;renderLearn()};
-$("learn-next").onclick=()=>{mastered.add(learnOrder[learnIndex]);addXP(2);learnIndex=(learnIndex+1)%15;renderLearn();toast("¡Palabra repasada! +2 XP");};
-
-function makeOptions(index){const correct=WORDS[index].mini;const wrong=shuffle(WORDS.filter((_,i)=>i!==index).map(x=>x.mini)).slice(0,3);return shuffle([correct,...wrong]);}
-function startQuiz(){practiceMode=null;quizSet=shuffle(WORDS.map((_,i)=>i)).slice(0,10);quizIndex=0;renderQuiz();}
-function renderQuiz(){if(quizIndex>=quizSet.length){finishMode("¡Quiz terminado!",`Has conseguido ${xp} XP en total. Vuelve a jugar para reforzar las palabras.`);return;}quizLocked=false;quizSeconds=40;const id=quizSet[quizIndex],x=WORDS[id];$("quiz-counter").textContent=`${quizIndex+1} / ${quizSet.length}`;$("quiz-word").textContent=x.w.toUpperCase();$("quiz-question").textContent="¿Qué significa esta palabra?";$("quiz-feedback").className="feedback hidden";$("quiz-next").disabled=true;$("quiz-practice").classList.add("hidden");$("quiz-answers").innerHTML="";makeOptions(id).forEach((text,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=text;b.onclick=()=>answerQuiz(b,text===x.mini,id);$("quiz-answers").appendChild(b)});updateQuizTimer();}
-function updateQuizTimer(){clearInterval(quizTimer);$("quiz-time").textContent=quizSeconds;$("quiz-timer-bar").style.width="100%";quizTimer=setInterval(()=>{quizSeconds--;$("quiz-time").textContent=quizSeconds;$("quiz-timer-bar").style.width=(quizSeconds/40*100)+"%";if(quizSeconds<=0){clearInterval(quizTimer);if(!quizLocked){if(practiceMode==="quiz")answerPractice(null,false,true);else answerQuiz(null,false,quizSet[quizIndex],true)}}},1000)}
-function answerQuiz(button,ok,id,timeout=false){if(quizLocked)return;quizLocked=true;clearInterval(quizTimer);const x=WORDS[id];[...$("quiz-answers").children].forEach(b=>{if(b.textContent===x.mini)b.classList.add("correct")});if(button&&!ok)button.classList.add("wrong");const f=$("quiz-feedback");f.className="feedback "+(ok?"good":"bad");f.innerHTML=ok?`<strong>¡Correcto! +10 XP 🎉</strong>${x.tip}`:`<strong>${timeout?"¡Se acabó el tiempo!":"¡Casi! Vamos a recordarla."}</strong>Respuesta: <b>${x.mini}</b><br>Truco: ${x.tip}<br>Ejemplo: ${x.example}`;if(ok){addXP(10);streak++;mastered.add(id)}else{streak=0;$("quiz-practice").classList.remove("hidden")}updateStats();$("quiz-next").disabled=false;}
-$("quiz-next").onclick=()=>{if(practiceMode==="quiz"){advancePractice();return}quizIndex++;renderQuiz()};
-
-function prepareKahoot(){practiceMode=null;clearInterval(kahootTimer);kahootSet=shuffle(WORDS.map((_,i)=>i)).slice(0,10);kahootIndex=0;kahootPoints=0;$("kahoot-points").textContent="0";$("kahoot-start").classList.remove("hidden");$("kahoot-next").disabled=true;$("kahoot-practice").classList.add("hidden");$("kahoot-feedback").className="feedback hidden";$("kahoot-word").textContent="¿Listo para jugar?";$("kahoot-answers").innerHTML="";$("kahoot-counter").textContent="10 preguntas";$("kahoot-time").textContent="15";}
-$("kahoot-start").onclick=()=>{$("kahoot-start").classList.add("hidden");renderKahoot()};
-function renderKahoot(){if(kahootIndex>=kahootSet.length){finishMode("¡Partida terminada!",`Puntuación de esta partida: ${kahootPoints} puntos. ¡Reta tu propio récord!`);return;}kahootLocked=false;kahootSeconds=15;const id=kahootSet[kahootIndex],x=WORDS[id];$("kahoot-counter").textContent=`${kahootIndex+1} / ${kahootSet.length}`;$("kahoot-word").textContent=x.w.toUpperCase();$("kahoot-feedback").className="feedback hidden";$("kahoot-next").disabled=true;$("kahoot-answers").innerHTML="";makeOptions(id).forEach(text=>{const b=document.createElement("button");b.className="kahoot-answer";b.textContent=text;b.onclick=()=>answerKahoot(b,text===x.mini,id);$("kahoot-answers").appendChild(b)});kahootTimer=setInterval(()=>{kahootSeconds--;$("kahoot-time").textContent=kahootSeconds;if(kahootSeconds<=0)answerKahoot(null,false,id,true)},1000)}
-function answerKahoot(button,ok,id,timeout=false){if(kahootLocked)return;kahootLocked=true;clearInterval(kahootTimer);const x=WORDS[id];[...$("kahoot-answers").children].forEach(b=>{if(b.textContent===x.mini)b.classList.add("correct")});if(button&&!ok)button.classList.add("wrong");const f=$("kahoot-feedback");f.className="feedback "+(ok?"good":"bad");if(ok){const gained=500+kahootSeconds*30;kahootPoints+=gained;addXP(8);streak++;mastered.add(id);f.innerHTML=`<strong>¡Respuesta correcta! +${gained} puntos ⚡</strong>${x.tip}`}else{streak=0;$("kahoot-practice").classList.remove("hidden");f.innerHTML=`<strong>${timeout?"¡Tiempo!":"¡No era esa!"}</strong>La respuesta era: <b>${x.mini}</b><br>Truco: ${x.tip}<br>Ejemplo: ${x.example}`}updateStats();$("kahoot-points").textContent=kahootPoints;$("kahoot-next").disabled=false;}
-$("kahoot-next").onclick=()=>{if(practiceMode==="kahoot"){advancePractice();return}kahootIndex++;renderKahoot()};
-
-
-// Si fallas, puedes repetir esa palabra tres veces seguidas para fijarla.
-function beginPractice(mode,id){
-  practiceMode=mode;practiceId=id;practiceRemaining=3;
-  if(mode==="quiz")renderPracticeQuiz();else renderPracticeKahoot();
-}
-function renderPracticeQuiz(){
-  quizLocked=false;quizSeconds=40;const x=WORDS[practiceId];
-  $("quiz-counter").textContent=`PRÁCTICA · ${4-practiceRemaining} / 3`;
-  $("quiz-word").textContent=x.w.toUpperCase();$("quiz-question").textContent="Repite esta palabra: ¿qué significa?";
-  $("quiz-feedback").className="feedback hidden";$("quiz-next").disabled=true;
-  $("quiz-practice").classList.add("hidden");$("quiz-answers").innerHTML="";
-  makeOptions(practiceId).forEach(text=>{const b=document.createElement("button");b.className="answer";b.textContent=text;b.onclick=()=>answerPractice(b,text===x.mini);$("quiz-answers").appendChild(b)});
-  updateQuizTimer();
-}
-function renderPracticeKahoot(){
-  kahootLocked=false;kahootSeconds=15;const x=WORDS[practiceId];
-  $("kahoot-counter").textContent=`PRÁCTICA · ${4-practiceRemaining} / 3`;
-  $("kahoot-word").textContent=x.w.toUpperCase();$("kahoot-feedback").className="feedback hidden";
-  $("kahoot-next").disabled=true;$("kahoot-practice").classList.add("hidden");$("kahoot-answers").innerHTML="";
-  makeOptions(practiceId).forEach(text=>{const b=document.createElement("button");b.className="kahoot-answer";b.textContent=text;b.onclick=()=>answerPractice(b,text===x.mini);$("kahoot-answers").appendChild(b)});
-  kahootTimer=setInterval(()=>{kahootSeconds--;$("kahoot-time").textContent=kahootSeconds;if(kahootSeconds<=0)answerPractice(null,false,true)},1000);
-}
-function answerPractice(button,ok,timeout=false){
-  if(practiceMode==="quiz"){
-    if(quizLocked)return;quizLocked=true;clearInterval(quizTimer);
-    const x=WORDS[practiceId];[...$("quiz-answers").children].forEach(b=>{if(b.textContent===x.mini)b.classList.add("correct")});
-    if(button&&!ok)button.classList.add("wrong");
-    $("quiz-feedback").className="feedback "+(ok?"good":"bad");
-    $("quiz-feedback").innerHTML=ok?`<strong>¡Bien! Esta es la práctica ${4-practiceRemaining} de 3.</strong>${x.tip}`:`<strong>Vamos otra vez, sin presión.</strong>Respuesta: ${x.mini}<br>${x.tip}`;
-    if(ok){addXP(3);streak++;}else streak=0;updateStats();$("quiz-next").disabled=false;
-    $("quiz-next").textContent=practiceRemaining>1?"Otra repetición ↵":"Terminar práctica ↵";
-  }else{
-    if(kahootLocked)return;kahootLocked=true;clearInterval(kahootTimer);
-    const x=WORDS[practiceId];[...$("kahoot-answers").children].forEach(b=>{if(b.textContent===x.mini)b.classList.add("correct")});
-    if(button&&!ok)button.classList.add("wrong");
-    $("kahoot-feedback").className="feedback "+(ok?"good":"bad");
-    $("kahoot-feedback").innerHTML=ok?`<strong>¡Correcto! Práctica ${4-practiceRemaining} de 3.</strong>${x.tip}`:`<strong>¡Seguimos practicando!</strong>Respuesta: ${x.mini}<br>${x.tip}`;
-    if(ok){addXP(3);streak++;}else streak=0;updateStats();$("kahoot-next").disabled=false;
-    $("kahoot-next").textContent=practiceRemaining>1?"Otra repetición ↵":"Terminar práctica ↵";
-  }
-}
-function advancePractice(){
-  practiceRemaining--;
-  if(practiceRemaining>0){if(practiceMode==="quiz")renderPracticeQuiz();else renderPracticeKahoot();return;}
-  const mode=practiceMode;practiceMode=null;practiceId=null;
-  if(mode==="quiz"){quizIndex++;$("quiz-next").textContent="Siguiente ↵";renderQuiz();}
-  else{kahootIndex++;$("kahoot-next").textContent="Siguiente ronda ↵";renderKahoot();}
-}
-$("quiz-practice").onclick=()=>beginPractice("quiz",quizSet[quizIndex]);
-$("kahoot-practice").onclick=()=>beginPractice("kahoot",kahootSet[kahootIndex]);
-function renderWrite(){
- const x=WORDS[writeOrder[writeIndex]];writeAnswered=false;
- $("write-counter").textContent=`${writeIndex+1} / ${writeOrder.length}`;
- $("write-word").textContent=x.w.toUpperCase();$("write-input").value="";
- $("write-input").disabled=false;$("write-check").disabled=false;
- $("write-check").textContent="Revisar respuesta";
- $("write-feedback").className="feedback hidden";
-}
-$("write-check").onclick=()=>{
- if(writeAnswered){writeIndex=(writeIndex+1)%writeOrder.length;renderWrite();return;}
- const actualId=writeOrder[writeIndex],x=WORDS[actualId],v=$("write-input").value.trim().toLowerCase();
- if(!v){toast("Escribe una idea primero.");return;}
- const tokens=x.mini.toLowerCase().split(/[^a-záéíóúñ]+/).filter(t=>t.length>3);
- const hits=tokens.filter(t=>v.includes(t)).length,ok=hits>=1||v.length>55,f=$("write-feedback");
- f.className="feedback "+(ok?"good":"bad");
- f.innerHTML=ok?`<strong>¡Bien explicado! +5 XP</strong>Idea clave: ${x.mini}<br>🧠 ${x.tip}`:`<strong>Vamos a mejorarlo.</strong>Idea clave: <b>${x.mini}</b><br>Truco: ${x.tip}<br>Ejemplo: ${x.example}`;
- if(ok){addXP(5);mastered.add(actualId);streak++;}else streak=0;
- updateStats();writeAnswered=true;$("write-input").disabled=true;$("write-check").textContent="Siguiente palabra →";
-};
-
-
-// Emoji game: the emoji is a visual memory clue, not a replacement for the real definition.
-function startEmoji(){emojiSet=shuffle(WORDS.map((_,i)=>i)).slice(0,10);emojiIndex=0;renderEmoji();}
-function renderEmoji(){
- if(emojiIndex>=emojiSet.length){finishMode("¡Emoji challenge completado!", "Terminaste las 10 preguntas visuales. ¡Buen trabajo!");return;}
- emojiLocked=false;const id=emojiSet[emojiIndex],x=WORDS[id],hint=EMOJIS[id];
- $("emoji-counter").textContent=`${emojiIndex+1} / ${emojiSet.length}`;$("emoji-word").textContent=x.w.toUpperCase();
- $("emoji-clue").textContent="❓";$("emoji-feedback").className="feedback hidden";$("emoji-next").disabled=true;$("emoji-options").innerHTML="";
- const options=shuffle([{...hint,correct:true},...hint.wrong.map((emoji,i)=>({emoji,label:["otra idea","no corresponde","pista falsa"][i],correct:false}))]);
- options.forEach(o=>{const b=document.createElement("button");b.className="emoji-option";b.innerHTML=`${o.emoji}<span>${o.label}</span>`;b.dataset.correct=o.correct?"1":"0";b.onclick=()=>answerEmoji(b,o.correct,id);$("emoji-options").appendChild(b)});
-}
-function answerEmoji(button,ok,id){
- if(emojiLocked)return;emojiLocked=true;const x=WORDS[id],clue=EMOJIS[id];
- [...$("emoji-options").children].forEach(b=>{if(b.dataset.correct==="1")b.classList.add("correct")});
- if(!ok)button.classList.add("wrong");
- $("emoji-clue").textContent=clue.emoji;
- const f=$("emoji-feedback");f.className="feedback "+(ok?"good":"bad");
- f.innerHTML=ok?`<strong>¡Lo captaste! +8 XP 🎉</strong>${x.mini}<br>🧠 ${x.tip}`:`<strong>¡Casi! Mira la asociación:</strong>${clue.emoji} = ${clue.label}.<br>Significa: <b>${x.mini}</b><br>Truco: ${x.tip}`;
- if(ok){addXP(8);streak++;mastered.add(id)}else streak=0;updateStats();$("emoji-next").disabled=false;
-}
-$("emoji-next").onclick=()=>{emojiIndex++;renderEmoji()};
-
-// XP shop: items are bought and applied immediately to the active Quiz/Kahoot question.
-function renderShop(){
- $("shop-xp").textContent=xp;
- document.querySelectorAll(".buy").forEach(b=>{
-   const cost=b.dataset.item==="skip"?120:250;
-   b.disabled=xp<cost;
-   b.textContent=xp<cost?`Necesitas ${cost-xp} XP`:"Comprar";
- });
-}
-function buyPower(item){
- const cost=item==="skip"?120:250;
- if(xp<cost){toast(`Te faltan ${cost-xp} XP para comprarlo.`);return;}
- if(!["quiz","kahoot"].includes(currentGame)){toast("Abre primero una partida de Quiz o Kahoot para usar este poder.");return;}
- const isQuiz=currentGame==="quiz",isKahoot=currentGame==="kahoot";
- const locked=isQuiz?quizLocked:kahootLocked;
- if(locked){toast("Primero abre una pregunta activa para usar el poder.");return;}
- xp-=cost;updateStats();
- if(item==="skip"){
-   toast("⏭️ Pregunta saltada. ¡A seguir!");
-   if(isQuiz){clearInterval(quizTimer);quizLocked=true;quizIndex++;renderQuiz();}
-   else{clearInterval(kahootTimer);kahootLocked=true;kahootIndex++;renderKahoot();}
- }else{
-   if(isQuiz){answerQuiz(null,false,quizSet[quizIndex],false);$("quiz-feedback").innerHTML=`<strong>🔮 Respuesta revelada (250 XP)</strong>La respuesta es: <b>${WORDS[quizSet[quizIndex]].mini}</b><br>🧠 ${WORDS[quizSet[quizIndex]].tip}`;$("quiz-next").textContent="Continuar ↵";}
-   else{answerKahoot(null,false,kahootSet[kahootIndex],false);$("kahoot-feedback").innerHTML=`<strong>🔮 Respuesta revelada (250 XP)</strong>La respuesta es: <b>${WORDS[kahootSet[kahootIndex]].mini}</b><br>🧠 ${WORDS[kahootSet[kahootIndex]].tip}`;$("kahoot-next").textContent="Continuar ↵";}
- }
- renderShop();
-}
-document.querySelectorAll(".buy").forEach(b=>b.addEventListener("click",()=>buyPower(b.dataset.item)));
-$("back-game").onclick=()=>{
- const target=returnGame||"learn";
- panels.forEach(p=>{const panel=$(p);if(panel)panel.classList.toggle("hidden",p!==target)});
- document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===target));
- currentGame=target;
- if(target==="quiz"&&!quizLocked){
-   clearInterval(quizTimer);
-   $("quiz-time").textContent=quizSeconds;
-   $("quiz-timer-bar").style.width=(quizSeconds/40*100)+"%";
-   quizTimer=setInterval(()=>{quizSeconds--;$("quiz-time").textContent=quizSeconds;$("quiz-timer-bar").style.width=(quizSeconds/40*100)+"%";if(quizSeconds<=0){clearInterval(quizTimer);if(!quizLocked){if(practiceMode==="quiz")answerPractice(null,false,true);else answerQuiz(null,false,quizSet[quizIndex],true)}}},1000);
- }
- if(target==="kahoot"&&!kahootLocked){
-   clearInterval(kahootTimer);
-   kahootTimer=setInterval(()=>{kahootSeconds--;$("kahoot-time").textContent=kahootSeconds;if(kahootSeconds<=0){if(practiceMode==="kahoot")answerPractice(null,false,true);else answerKahoot(null,false,kahootSet[kahootIndex],true)}},1000);
- }
-};
-
-$("dictionary").innerHTML=WORDS.map((x,i)=>`<article class="dict-item"><b>${i+1}. ${x.w}</b><div class="mini">${x.mini}</div><small>${x.cat} · ${x.full}</small></article>`).join("");
-function finishMode(title,text){clearInterval(quizTimer);clearInterval(kahootTimer);panels.forEach(p=>{const panel=$(p);if(panel)panel.classList.toggle("hidden",p!=="results")});document.querySelectorAll(".mode").forEach(b=>b.classList.remove("active"));$("result-title").textContent=title;$("result-text").textContent=text;}
-$("result-again").onclick=()=>showMode("learn");
-renderLearn();updateStats();renderShop();
-
-// Enter funciona como botón de continuar/enviar para avanzar más rápido.
-document.addEventListener("keydown",e=>{
-  if(e.key!=="Enter"||e.repeat)return;
-  const tag=(document.activeElement&&document.activeElement.tagName||"").toLowerCase();
-  if(tag==="textarea"||tag==="input")return;
-  const visible=id=>!$(id).classList.contains("hidden");
-  if(visible("learn")){e.preventDefault();$("learn-next").click();}
-  else if(visible("quiz")&&!$("quiz-next").disabled){e.preventDefault();$("quiz-next").click();}
-  else if(visible("kahoot")&&!$("kahoot-next").disabled){e.preventDefault();$("kahoot-next").click();}
-  else if(visible("emoji")&&!$("emoji-next").disabled){e.preventDefault();$("emoji-next").click();}
-  else if(visible("write")){e.preventDefault();$("write-check").click();}
-});
+function toast(s){const t=$("toast");t.textContent=s;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800)}
+function stats(){ $("xp").textContent=xp;$("streak").textContent=streak;$("correct").textContent=correctTotal;$("progress-label").textContent=`${correctTotal} respuestas correctas`;$("progress-bar").style.width=Math.min(100,correctTotal/30*100)+"%";}
+function showMode(m){["tutorial","vocab","practice","exam"].forEach(x=>$(x).classList.toggle("hidden",x!==m));document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===m));if(m==="vocab")renderVocab();if(m==="practice")startPractice("all");if(m==="exam")resetExam();}
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>showMode(b.dataset.mode));
+function renderLesson(){const l=lessons[lessonIndex];$("lesson-counter").textContent=`${lessonIndex+1} / ${lessons.length}`;$("lesson-tag").textContent=l.tag;$("lesson-title").textContent=l.title;$("lesson-intro").textContent=l.intro;$("lesson-content").innerHTML=l.body;$("lesson-remember").textContent="🧠 "+l.remember;$("lesson-tabs").innerHTML=lessons.map((x,i)=>`<button class="lesson-tab ${i===lessonIndex?"active":""}" data-i="${i}">${i+1}. ${["However","Wh- words","Cause/effect","Sense verbs","Used to"][i]}</button>`).join("");document.querySelectorAll(".lesson-tab").forEach(b=>b.onclick=()=>{lessonIndex=+b.dataset.i;renderLesson()});$("lesson-prev").disabled=lessonIndex===0;$("lesson-next").textContent=lessonIndex===lessons.length-1?"Volver al inicio":"Siguiente tema →";}
+$("lesson-prev").onclick=()=>{lessonIndex=Math.max(0,lessonIndex-1);renderLesson()};$("lesson-next").onclick=()=>{lessonIndex=(lessonIndex+1)%lessons.length;renderLesson()};
+function renderVocab(){const v=vocab[vocabIndex];$("vocab-counter").textContent=`${vocabIndex+1} / ${vocab.length}`;$("vocab-word").textContent=v[0].toUpperCase();$("vocab-category").textContent=v[4];$("vocab-meaning").textContent=v[1]+" · "+v[2];$("vocab-example").textContent=v[3];$("vocab-answer").classList.add("hidden");$("vocab-card").querySelector(".card-hint").textContent="TOCA PARA REVELAR";$("dictionary").innerHTML=vocab.map(x=>`<article class="dict-item"><b>${x[0]}</b><div>${x[2]}</div><small>${x[1]}</small></article>`).join("");}
+$("vocab-card").onclick=()=>{$("vocab-answer").classList.remove("hidden");$("vocab-card").querySelector(".card-hint").textContent="SIGNIFICADO Y EJEMPLO";};$("vocab-prev").onclick=()=>{vocabIndex=(vocabIndex+vocab.length-1)%vocab.length;renderVocab()};$("vocab-next").onclick=()=>{xp+=2;vocabIndex=(vocabIndex+1)%vocab.length;stats();renderVocab()};
+let activeFilter="all";
+document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeFilter=b.dataset.filter;startPractice(activeFilter)});
+function startPractice(filter){activeFilter=filter;const selected=filter==="all"?questions:questions.filter(q=>q[0]===filter);practiceSet=shuffle(selected);practiceIndex=0;renderPractice()}
+function renderPractice(){if(practiceIndex>=practiceSet.length){$("question-word").textContent="¡TERMINASTE!";$("question-text").textContent="Has completado este bloque. Elige otro tema o vuelve a practicar."; $("answers").innerHTML="";$("feedback").className="feedback hidden";$("practice-counter").textContent=`${practiceSet.length} / ${practiceSet.length}`;$("next-question").disabled=true;return}const q=practiceSet[practiceIndex];practiceLocked=false;$("practice-counter").textContent=`${practiceIndex+1} / ${practiceSet.length}`;$("question-word").textContent=q[1];$("question-text").textContent=q[2];$("feedback").className="feedback hidden";$("next-question").disabled=true;$("answers").innerHTML="";shuffle(q.slice(3,7).map((x,i)=>({text:x,correct:x===q[3]}))).forEach(o=>{const b=document.createElement("button");b.className="answer";b.textContent=o.text;b.onclick=()=>answerPractice(b,o.correct,q);$("answers").appendChild(b)})}
+function answerPractice(btn,ok,q){if(practiceLocked)return;practiceLocked=true;[...$("answers").children].forEach(b=>{if(b.textContent===q[3])b.classList.add("correct")});if(!ok)btn.classList.add("wrong");const f=$("feedback");f.className="feedback "+(ok?"good":"bad");f.innerHTML=`<strong>${ok?"¡Correcto! +10 XP":"No exactamente. Repasa la regla:"}</strong>${q[7]}`;if(ok){xp+=10;streak++;correctTotal++}else streak=0;stats();$("next-question").disabled=false}
+$("next-question").onclick=()=>{practiceIndex++;renderPractice()};
+function resetExam(){clearInterval(examTimer);examSet=shuffle(questions).slice(0,15);examIndex=0;examScore=0;examSeconds=900;examLocked=true;$("exam-counter").textContent="0 / 15";$("exam-time").textContent="15:00";$("exam-bar").style.width="100%";$("exam-word").textContent="READY?";$("exam-question").textContent="Pulsa comenzar cuando estés listo.";$("exam-answers").innerHTML="";$("exam-feedback").className="feedback hidden";$("exam-result").className="result hidden";$("exam-start").classList.remove("hidden");$("exam-next").disabled=true}
+function renderExam(){if(examIndex>=examSet.length){finishExam();return}examLocked=false;const q=examSet[examIndex];$("exam-counter").textContent=`${examIndex+1} / 15`;$("exam-word").textContent=q[1];$("exam-question").textContent=q[2];$("exam-feedback").className="feedback hidden";$("exam-next").disabled=true;$("exam-answers").innerHTML="";shuffle(q.slice(3,7).map(x=>({text:x,correct:x===q[3]}))).forEach(o=>{const b=document.createElement("button");b.className="answer";b.textContent=o.text;b.onclick=()=>answerExam(b,o.correct,q);$("exam-answers").appendChild(b)})}
+function answerExam(btn,ok,q){if(examLocked)return;examLocked=true;[...$("exam-answers").children].forEach(b=>{if(b.textContent===q[3])b.classList.add("correct")});if(!ok)btn.classList.add("wrong");const f=$("exam-feedback");f.className="feedback "+(ok?"good":"bad");f.innerHTML=`<strong>${ok?"Correcto":"Respuesta correcta: "+q[3]}</strong>${q[7]}`;if(ok){examScore++;xp+=5;correctTotal++;streak++}else streak=0;stats();$("exam-next").disabled=false}
+function finishExam(){clearInterval(examTimer);examLocked=true;$("exam-word").textContent="EXAMEN TERMINADO";$("exam-question").textContent="Tu resultado:";$("exam-answers").innerHTML="";$("exam-feedback").className="feedback hidden";$("exam-next").disabled=true;$("exam-result").className="result";const grade=examScore/15*10;$("exam-result").innerHTML=`<div style="font-size:34px">${examScore}/15</div><div>Calificación estimada: ${grade.toFixed(1)} / 10</div><p>${grade>=8?"¡Muy bien!":grade>=6?"Vas avanzando. Repasa los errores.":"Vuelve al tutorial y practica los temas que fallaste."}</p><button class="btn primary" id="retry-exam">Repetir simulacro</button>`;$("retry-exam").onclick=resetExam}
+$("exam-start").onclick=()=>{$("exam-start").classList.add("hidden");examTimer=setInterval(()=>{examSeconds--;const m=Math.floor(examSeconds/60),s=examSeconds%60;$("exam-time").textContent=`${m}:${String(s).padStart(2,"0")}`;$("exam-bar").style.width=(examSeconds/900*100)+"%";if(examSeconds<=0)finishExam()},1000);renderExam()};
+$("exam-next").onclick=()=>{examIndex++;renderExam()};
+renderLesson();renderVocab();stats();
