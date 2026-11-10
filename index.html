@@ -1,70 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#263f72"><title>Biology Quest · Biology III</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BioLingo · Biology III</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="#"><span>🧬</span><span>BIOLOGY QUEST</span></a>
-  <div class="stats"><span class="stat">⚡ <b id="xp">0</b> XP</span><span class="stat">🔥 <b id="streak">0</b></span><span class="stat">✓ <b id="correct">0</b></span></div>
-</header>
-<main class="app">
-<section class="welcome card">
- <div><p class="eyebrow">BIOLOGY III · STUDY MODE</p><h1>Domina biología.<br><span>Comprende, practica y recuerda.</span></h1>
- <p class="sub">Macromolecules, carbohydrates, proteins, lipids, vitamins and minerals. Basado en tus materiales de clase.</p></div><div class="hero-art">🔬</div>
- <div class="progress-wrap"><div class="progress-label"><span>Tu progreso</span><b id="progress-label">0 respuestas correctas</b></div><div class="progress"><div id="progress-bar"></div></div></div>
-</section>
-<nav class="mode-grid">
- <button class="mode active" data-mode="tutorial"><span>🧑‍🏫</span><b>Tutorial</b><small>Aprende cada tema</small></button>
- <button class="mode" data-mode="vocab"><span>🧠</span><b>Study cards</b><small>Conceptos clave</small></button>
- <button class="mode" data-mode="practice"><span>✍️</span><b>Practicar</b><small>Preguntas por tema</small></button>
- <button class="mode" data-mode="exam"><span>⏱️</span><b>Simulacro</b><small>20 preguntas</small></button>
- <button class="mode" data-mode="reference"><span>📚</span><b>Resumen</b><small>Tablas para repasar</small></button>
-</nav>
+<div id="app">
+  <header class="top">
+    <div class="logo">biolingo</div>
+    <div class="stats">
+      <span class="stat fire" title="Racha de días">🔥 <span id="sStreak">0</span></span>
+      <span class="stat xp" title="Experiencia">⚡ <span id="sXp">0</span></span>
+      <button class="stat err" id="sErrBtn" title="Errores por repasar">💔 <span id="sErr">0</span></button>
+      <button class="stat" id="sndBtn" title="Sonido">🔊</button>
+    </div>
+  </header>
+  <main id="main"></main>
+</div>
+<nav class="nav"><div class="nav-in">
+  <button data-tab="learn" class="on"><span class="ic">🏠</span>Aprender</button>
+  <button data-tab="cards"><span class="ic">🃏</span>Tarjetas</button>
+  <button data-tab="kahoot"><span class="ic">🎮</span>Kahoot</button>
+  <button data-tab="exam"><span class="ic">📝</span>Examen</button>
+  <button data-tab="notes"><span class="ic">📖</span>Apuntes</button>
+</div></nav>
+<div id="overlay"></div>
 
-<section id="tutorial" class="game card">
- <div class="section-head"><div><p class="eyebrow">MODO TUTORIAL</p><h2>Entiende cada tema</h2></div><span class="counter" id="lesson-counter">1 / 5</span></div>
- <div class="lesson-tabs" id="lesson-tabs"></div>
- <article class="lesson"><span class="lesson-tag" id="lesson-tag">BIOLOGY</span><h3 id="lesson-title"></h3><p class="lesson-intro" id="lesson-intro"></p><div id="lesson-content"></div><div class="remember" id="lesson-remember"></div></article>
- <div class="controls"><button class="btn secondary" id="lesson-prev">← Anterior</button><button class="btn primary" id="lesson-next">Siguiente tema →</button></div>
-</section>
-
-<section id="vocab" class="game card hidden">
- <div class="section-head"><div><p class="eyebrow">STUDY CARDS</p><h2>Conceptos de biología</h2></div><span class="counter" id="vocab-counter">1 / 20</span></div>
- <div class="flashcard" id="vocab-card"><span class="card-hint">TOCA PARA REVELAR</span><div class="big-word" id="vocab-word"></div><span class="category" id="vocab-category"></span><div id="vocab-answer" class="hidden"><div class="mini-meaning" id="vocab-meaning"></div><p id="vocab-example"></p></div></div>
- <div class="controls"><button class="btn secondary" id="vocab-prev">← Anterior</button><button class="btn primary" id="vocab-next">Siguiente →</button></div>
-</section>
-
-<section id="practice" class="game card hidden">
- <div class="section-head"><div><p class="eyebrow">PRACTICE MODE</p><h2>Comprueba lo que aprendiste</h2></div><span class="counter" id="practice-counter">1 / 10</span></div>
- <div class="filters"><button class="filter active" data-filter="all">Todo</button><button class="filter" data-filter="carbs">Carbohydrates</button><button class="filter" data-filter="proteins">Proteins</button><button class="filter" data-filter="lipids">Lipids</button><button class="filter" data-filter="micro">Vitamins & minerals</button></div>
- <div class="question-word" id="question-word">BIOLOGY</div><p class="question" id="question-text"></p><div class="answers" id="answers"></div><div class="feedback hidden" id="feedback"></div>
- <div class="controls right"><button class="btn primary" id="next-question" disabled>Siguiente →</button></div>
-</section>
-
-<section id="exam" class="game card hidden">
- <div class="section-head"><div><p class="eyebrow">BIOLOGY III · MOCK EXAM</p><h2>Simulacro de examen</h2></div><span class="counter" id="exam-counter">0 / 20</span></div>
- <p class="sub">20 preguntas aleatorias de todos los temas. Tienes 15 minutos. Las respuestas se muestran después de elegir.</p>
- <div class="timer-line"><span>⏱️ <b id="exam-time">15:00</b></span><div class="timer-track"><div id="exam-bar"></div></div></div>
- <div class="question-word" id="exam-word">READY?</div><p class="question" id="exam-question">Pulsa comenzar cuando estés listo.</p><div class="answers" id="exam-answers"></div><div class="feedback hidden" id="exam-feedback"></div>
- <div class="controls"><button class="btn secondary" id="exam-start">▶ Comenzar</button><button class="btn primary" id="exam-next" disabled>Siguiente →</button></div><div id="exam-result" class="result hidden"></div>
-</section>
-
-<section id="reference" class="game card hidden">
- <div class="section-head"><div><p class="eyebrow">QUICK REVIEW</p><h2>Resumen para el examen</h2></div></div>
- <div class="reference-grid">
-  <article class="ref-card"><h3>Carbohydrates</h3><p><b>Main function:</b> provide energy.</p><p><b>Simple:</b> monosaccharides (glucose, fructose, galactose, ribose) and disaccharides (lactose, maltose, saccharose).</p><p><b>Complex:</b> oligosaccharides and polysaccharides (starch, glycogen, cellulose, chitin).</p></article>
-  <article class="ref-card"><h3>Proteins</h3><p>Abundant organic molecules. Each protein has a specific structure and job.</p><ul><li>Digestive enzymes: amylase, lipase, pepsin, trypsin.</li><li>Transport: hemoglobin, albumin.</li><li>Structural: actin, tubulin, keratin.</li><li>Hormones: insulin, thyroxine.</li><li>Defense: immunoglobulins.</li><li>Contractile: actin, myosin.</li><li>Storage: legume proteins, egg white.</li></ul></article>
-  <article class="ref-card"><h3>Lipids</h3><p>Hydrophobic molecules; do not mix with water.</p><p><b>Functions:</b> long-term energy storage, insulation, waterproofing, membranes, temperature control, food texture and flavor, and hormone production.</p><p><b>Types:</b> fats and oils, waxes, phospholipids, acylglycerides, steroids and carotenoids.</p></article>
-  <article class="ref-card"><h3>Vitamins</h3><p><b>Fat-soluble:</b> A, D, E, K. Dissolve in fat and can be stored.</p><p><b>Water-soluble:</b> B-complex and C. Dissolve in water and are not stored in large amounts.</p><p><b>Examples:</b> A—vision; C—collagen and iron absorption; D—calcium absorption; K—blood clotting.</p></article>
-  <article class="ref-card"><h3>Minerals</h3><ul><li>Iron (Fe): hemoglobin carries oxygen.</li><li>Calcium (Ca): bones, teeth, muscle contraction.</li><li>Potassium (K): fluid balance, nerve signals, muscles.</li><li>Iodine (I): thyroid hormones.</li><li>Zinc (Zn): immunity, growth, wound healing.</li><li>Magnesium (Mg): muscles, nerves, enzyme activity.</li></ul></article>
-  <article class="ref-card highlight"><h3>Important exam connections</h3><ul><li>Vitamin C helps the body absorb iron.</li><li>Vitamin D helps the body absorb calcium.</li><li>Iron is part of hemoglobin, which carries oxygen.</li><li>Calcium, potassium and magnesium support muscle function.</li><li>Iodine is needed to make thyroid hormones.</li></ul></article>
- </div>
-</section>
-<footer>Biology Quest · Biology III · Study with understanding</footer>
-</main>
-<div class="toast" id="toast"></div>
-<script src="script.js"></script>
-</body></html>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
